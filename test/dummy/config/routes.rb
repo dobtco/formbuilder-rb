@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
 
-  mount Formbuilder::Engine => "/formbuilder"
+  get 'forms/:id' => 'forms#show'
+
 end
