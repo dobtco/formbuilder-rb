@@ -4,7 +4,7 @@ describe 'Submitting an entry' do
 
   subject { page }
 
-  describe 'The file field' do
+  describe 'The text field' do
     before do
       @form = Formbuilder::Form.create
       @field = Formbuilder::ResponseFieldText.create(form: @form)
