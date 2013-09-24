@@ -5,16 +5,14 @@ describe 'Submitting an entry' do
 
   subject { page }
 
-  describe 'submitting an entry' do
-    before do
-      @form = FactoryGirl.create(:kitchen_sink_form)
-      visit form_path(@form)
-    end
+  before do
+    @form = FactoryGirl.create(:kitchen_sink_form)
+    visit form_path(@form)
+  end
 
-    it 'should render the form fields properly' do
-      @form.input_fields.each do |response_field|
-        page.should have_selector('label', text: response_field.label)
-      end
+  it 'should render the form fields properly' do
+    @form.input_fields.each do |response_field|
+      page.should have_selector('label', text: response_field.label)
     end
   end
 
