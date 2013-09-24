@@ -1,7 +1,9 @@
 Formbuilder
 ========
 
-## The `Form` model
+## Set up your models
+
+#### 1. The `Form` model
 ```ruby
 #  formable_id   :integer
 #  formable_type :string(255)
@@ -13,7 +15,7 @@ class Form < ActiveRecord::Base
 end
 ```
 
-## The `Entry` model
+#### 2. The `Entry` model
 ```ruby
 #  responses       :hstore
 #  responses_text  :text
@@ -25,7 +27,7 @@ class Entry < ActiveRecord::Base
 end
 ```
 
-## The `ResponseField` model
+#### 3. The `ResponseField` model
 ```ruby
 #  form_id       :integer
 #  label         :text
@@ -41,6 +43,11 @@ class ResponseField < ActiveRecord::Base
   include Formbuilder::ResponseFields::Base
 
 end
+```
+
+## Render a form
+```erb
+<%= Formbuilder::FormRenderer.new(@form, @entry).to_html %>
 ```
 
 #### License
