@@ -2,7 +2,7 @@ class FormsController < ApplicationController
 
   def show
     @form = Form.find(params[:id])
-    # @entry = @form
+    @entry = Entry.new(form: @form)
   end
 
 end

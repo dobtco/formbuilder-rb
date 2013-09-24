@@ -4,7 +4,6 @@ module Formbuilder
     include ActionView::Helpers::UrlHelper
     include ActionView::Helpers::FormTagHelper
     include ActionView::Context
-    include ApplicationHelper
 
     def protect_against_forgery?; false; end;
 
@@ -92,12 +91,12 @@ module Formbuilder
     end
 
     def render_actions
-      form_actions do
-        """
+      """
+        <div class='form-actions'>
           <button class='button'>Submit</button>
           <a class='button save-draft-button' data-loading-text='All changes saved'>Save draft</a>
-        """.html_safe
-      end
+        </div>
+      """.html_safe
     end
   end
 end

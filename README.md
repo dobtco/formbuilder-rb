@@ -27,6 +27,7 @@ end
 
 ## The `ResponseField` model
 ```ruby
+#  form_id       :integer
 #  label         :text
 #  type          :string(255)
 #  field_options :text
