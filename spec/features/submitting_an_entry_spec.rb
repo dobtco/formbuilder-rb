@@ -4,16 +4,45 @@ include SubmittingAnEntrySpecHelper
 describe 'Submitting an entry' do
 
   subject { page }
+  let!(:form) { FactoryGirl.create(:kitchen_sink_form) }
 
   before do
-    @form = FactoryGirl.create(:kitchen_sink_form)
-    visit form_path(@form)
+    visit form_path(form)
   end
 
   it 'should render the form fields properly' do
-    @form.input_fields.each do |response_field|
+    form.input_fields.each do |response_field|
       page.should have_selector('label', text: response_field.label)
     end
   end
+
+  it 'should save and then submit responses' do
+    test_field_values.each do |k, v|
+      set_field(k, v)
+    end
+
+    save_draft_and_refresh
+
+    test_field_values.each do |k, v|
+      ensure_field(k, v)
+    end
+
+    # and update the draft
+    test_field_values_two.each do |k, v|
+      set_field(k, v)
+    end
+
+    save_draft_and_refresh
+
+    test_field_values_two.each do |k, v|
+      ensure_field(k, v)
+    end
+
+    # and submit the bid
+    click_button 'Submit'
+
+    page.should have_content("Thanks, your bid has been received!")
+  end
+
 
 end

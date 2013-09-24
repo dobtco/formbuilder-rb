@@ -1,10 +1,10 @@
 module SubmittingAnEntrySpecHelper
   def field_name(field_type)
-    "response_fields[#{project.response_fields.where(field_type: field_type).first.id}]"
+    "response_fields[#{form.response_fields.where(type: "Formbuilder::ResponseField#{field_type.capitalize}").first.id}]"
   end
 
   def escaped_field_name(field_type)
-    "response_fields\[#{project.response_fields.where(field_type: field_type).first.id}\]"
+    "response_fields\[#{form.response_fields.where(type: "Formbuilder::ResponseField#{field_type.capitalize}").first.id}\]"
   end
 
   def save_draft_no_js
@@ -19,7 +19,7 @@ module SubmittingAnEntrySpecHelper
   end
 
   def only_use_response_field(project, field_type)
-    project.response_fields.where("field_type != ?", field_type).destroy_all
+    form.response_fields.where("field_type != ?", field_type).destroy_all
   end
 
   def set_field(field_type, value)
@@ -89,7 +89,7 @@ module SubmittingAnEntrySpecHelper
       time: { hours: '12', minutes: '1', seconds: '30', am_pm: 'AM' },
       website: 'www.gizoogle.com',
       email: 'homestar@homestarrunner.com',
-      file: '../test_files/testimport.csv',
+      file: '../test_files/text2.txt',
       address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' }
     }
   end
