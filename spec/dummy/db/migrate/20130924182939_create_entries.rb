@@ -3,6 +3,7 @@ class CreateEntries < ActiveRecord::Migration
     execute 'CREATE EXTENSION IF NOT EXISTS hstore'
 
     create_table :entries do |t|
+      t.integer :form_id
       t.hstore :responses
       t.text :responses_text
 

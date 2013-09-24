@@ -2,6 +2,6 @@ class Entry < ActiveRecord::Base
 
   include Formbuilder::Entry
 
-  attr_accessor :form
+  belongs_to :form, class_name: 'Formbuilder::Form'
 
 end

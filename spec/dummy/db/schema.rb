@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20130924192152) do
   enable_extension "hstore"
 
   create_table "entries", force: true do |t|
+    t.integer  "form_id"
     t.hstore   "responses"
     t.text     "responses_text"
     t.datetime "created_at"
