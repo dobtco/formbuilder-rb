@@ -19,6 +19,9 @@ module Formbuilder
     # Should we sort this field's responses as numeric values?
     attr_accessor :sort_as_numeric
 
+    # Underscored name of this field
+    attr_accessor :field_type
+
     after_initialize -> {
       @input_field = true
     }
@@ -31,10 +34,6 @@ module Formbuilder
     serialize :field_options, Hash
 
     ALLOWED_PARAMS = [:key, :blind, :label, :field_options, :required, :admin_only]
-
-    def field_type
-      self.class.name.split('::').last.underscore
-    end
 
     def required?
       field_options['required']

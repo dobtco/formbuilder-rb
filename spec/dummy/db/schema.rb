@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130924192152) do
+ActiveRecord::Schema.define(version: 20130925125533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,8 +19,16 @@ ActiveRecord::Schema.define(version: 20130924192152) do
 
   create_table "entries", force: true do |t|
     t.integer  "form_id"
+    t.datetime "submitted_at"
     t.hstore   "responses"
     t.text     "responses_text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "formbuilder_entry_attachments", force: true do |t|
+    t.string   "upload"
+    t.string   "content_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

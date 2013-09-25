@@ -4,6 +4,10 @@ module Formbuilder
     include ActionView::Helpers::TagHelper
     include ActionView::Context
 
+    after_initialize -> {
+      @field_type = 'paragraph'
+    }
+
     def render_input(value, opts = {})
       content_tag(:textarea, name: "response_fields[#{self.id}]", class: "rf-size-#{self[:field_options]['size']}",
                   data: self.length_validations) { value }

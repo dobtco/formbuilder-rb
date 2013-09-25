@@ -3,6 +3,7 @@ module Formbuilder
 
     after_initialize -> {
       @options_field = true
+      @field_type = 'dropdown'
     }
 
     def render_input(value, opts = {})

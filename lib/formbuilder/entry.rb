@@ -9,6 +9,15 @@ module Formbuilder
       include ActionView::Helpers::TextHelper
     end
 
+    def submit!
+      self.submitted_at = Time.now
+      self.save
+    end
+
+    def submitted?
+      self.submitted_at.present?
+    end
+
     def value_present?(response_field)
       value = self.response_value(response_field)
 

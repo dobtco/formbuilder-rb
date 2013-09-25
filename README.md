@@ -6,6 +6,7 @@ Formbuilder
 
 #### The `Entry` model
 ```ruby
+#  submitted_at    :datetime
 #  responses       :hstore
 #  responses_text  :text
 

@@ -7,15 +7,9 @@ module SubmittingAnEntrySpecHelper
     "response_fields\[#{form.response_fields.where(type: "Formbuilder::ResponseField#{field_type.capitalize}").first.id}\]"
   end
 
-  def save_draft_no_js
+  def save_draft_and_refresh
     find('input[name=draft_only]').set('true')
     click_button 'Submit'
-  end
-
-  def save_draft_and_refresh
-    find('a', text: 'Save Draft').click
-    wait_for_ajax
-    refresh
   end
 
   def only_use_response_field(project, field_type)

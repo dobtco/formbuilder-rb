@@ -4,6 +4,7 @@ module Formbuilder
     after_initialize -> {
       @serialized = true
       @options_field = true
+      @field_type = 'checkboxes'
     }
 
     def render_input(value, opts = {})

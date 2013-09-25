@@ -4,6 +4,7 @@ class CreateEntries < ActiveRecord::Migration
 
     create_table :entries do |t|
       t.integer :form_id
+      t.datetime :submitted_at
       t.hstore :responses
       t.text :responses_text
 

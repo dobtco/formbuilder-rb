@@ -17,11 +17,15 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 4.0.0"
-  s.add_dependency "pg"
+
+  s.add_dependency 'carrierwave'
+  s.add_dependency 'pg'
+  s.add_dependency 'rmagick'
 
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'factory_girl_rails'
   s.add_development_dependency 'guard-rspec'
+  s.add_development_dependency 'launchy'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'terminal-notifier-guard'
   s.add_development_dependency 'thin'

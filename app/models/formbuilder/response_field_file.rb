@@ -1,6 +1,10 @@
 module Formbuilder
   class ResponseFieldFile < ResponseField
 
+    after_initialize -> {
+      @field_type = 'file'
+    }
+
     # @todo dropzone?
     def render_input(value, opts = {})
       """

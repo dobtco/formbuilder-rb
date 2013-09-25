@@ -5,6 +5,7 @@ module Formbuilder
 
     after_initialize -> {
       @sort_as_numeric = true
+      @field_type = 'number'
     }
 
     def render_input(value, opts = {})

@@ -8,7 +8,7 @@ module Formbuilder
     def protect_against_forgery?; false; end;
 
     DEFAULT_OPTIONS = {
-      action: '#',
+      action: '',
       method: 'POST'
     }
 
