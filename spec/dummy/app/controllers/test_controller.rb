@@ -33,8 +33,8 @@ class TestController < ApplicationController
 
   private
   def load_form_and_entry
-    @form = Formbuilder::Form.find(params[:id])
-    @entry = Entry.new(form: @form)
+    @form = Formbuilder::Form.find(params[:form_id])
+    @entry = Entry.find(params[:entry_id])
   end
 
 end

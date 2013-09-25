@@ -5,9 +5,10 @@ describe 'Submitting an entry' do
 
   subject { page }
   let!(:form) { FactoryGirl.create(:kitchen_sink_form) }
+  let!(:entry) { e = Entry.new(form: form); e.save(validate: false); e }
 
   before do
-    visit form_path(form)
+    visit form_path(form.id, entry.id)
   end
 
   it 'should render the form fields properly' do
