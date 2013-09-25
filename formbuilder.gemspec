@@ -7,11 +7,11 @@ require "formbuilder/version"
 Gem::Specification.new do |s|
   s.name        = "formbuilder"
   s.version     = Formbuilder::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Formbuilder."
-  s.description = "TODO: Description of Formbuilder."
+  s.authors     = ["Adam Becker"]
+  s.email       = ["adam@dobt.co"]
+  s.homepage    = "https://github.com/dobtco/formbuilder-rb"
+  s.summary     = "Rails backend for https://github.com/dobtco/formbuilder"
+  s.description = "Rails backend for https://github.com/dobtco/formbuilder"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
@@ -29,5 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'terminal-notifier-guard'
   s.add_development_dependency 'thin'
+  s.add_development_dependency 'coveralls'
 
 end
