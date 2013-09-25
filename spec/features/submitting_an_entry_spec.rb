@@ -42,7 +42,8 @@ describe 'Submitting an entry' do
     # and submit the bid
     click_button 'Submit'
 
-    page.should have_content("Thanks, your bid has been received!")
+    entry.reload.should be_submitted
+    current_path.should == render_entry_path(form, entry)
   end
 
 

@@ -23,7 +23,7 @@ module SubmittingAnEntrySpecHelper
         send(v ? :check : :uncheck, "#{field_name(field_type)}[#{i}]")
       end
     when :radio
-      find("[name=\"#{escaped_field_name(field_type)}\"][value=\"#{value}\"]").click
+      choose(value) # @todo this could fail if there are multiple radio buttons on the page
     when :dropdown
       select(value, from: field_name(field_type))
     when :price
@@ -95,7 +95,7 @@ module SubmittingAnEntrySpecHelper
         page.should(send(v ? :have_checked_field : :have_unchecked_field, "#{field_name(field_type)}[#{i}]"))
       end
     when :radio
-      find("[name=\"#{escaped_field_name(field_type)}\"][value=\"#{value}\"]")['checked'].should == true
+      find("[name=\"#{escaped_field_name(field_type)}\"][value=\"#{value}\"]")['checked'].should == 'checked'
     when :dropdown
       page.should have_select(field_name(field_type), selected: value)
     when :price
@@ -111,7 +111,7 @@ module SubmittingAnEntrySpecHelper
       page.should have_field("#{field_name(field_type)}[seconds]", with: value[:seconds])
       page.should have_select("#{field_name(field_type)}[am_pm]", selected: value[:am_pm])
     when :file
-      page.should have_selector('.fileupload-preview', text: value.split('/').last)
+      page.should have_selector('.existing-filename', text: value.split('/').last)
     when :address
       page.should have_field("#{field_name(field_type)}[street]", with: value[:street])
       page.should have_field("#{field_name(field_type)}[city]", with: value[:city])

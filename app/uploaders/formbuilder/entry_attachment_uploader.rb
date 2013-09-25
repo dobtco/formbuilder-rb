@@ -5,6 +5,8 @@ module Formbuilder
     include CarrierWave::MimeTypes
     include CarrierWave::RMagick
 
+    @fog_public = false
+
     process :set_content_type
 
     version :thumb, :if => :image? do

@@ -21,7 +21,7 @@ class TestController < ApplicationController
 
       format.html do
         if @entry.submitted?
-          redirect_to c(entry_path(@entry))
+          redirect_to render_entry_path(@form, @entry)
         elsif params[:draft_only] == 'true'
           redirect_to :back
         else
@@ -29,6 +29,9 @@ class TestController < ApplicationController
         end
       end
     end
+  end
+
+  def render_entry
   end
 
   private

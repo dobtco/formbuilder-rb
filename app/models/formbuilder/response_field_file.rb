@@ -7,7 +7,10 @@ module Formbuilder
 
     # @todo dropzone?
     def render_input(value, opts = {})
+      attachment = value && EntryAttachment.find(value)
+
       """
+        <span class='existing-filename'>#{attachment.try(:upload).try(:file).try(:filename).try(:gsub, /\?.*$/, '')}</span>
         <input type='file' name='response_fields[#{self[:id]}]' />
       """
     end
