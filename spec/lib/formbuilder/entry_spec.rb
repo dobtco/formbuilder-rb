@@ -145,8 +145,14 @@ describe Formbuilder::Entry do
   end
 
   describe 'normalizing & auditing responses' do
-    it 'should only occur when saving'
-    it 'should run all audits'
+    it 'should run all audits when saving' do
+      first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldAddress')
+      entry.responses[first_response_field.id.to_s] = { 'street' => 'hi' }.to_yaml
+      entry.save(validate: false)
+      entry.responses["#{first_response_field.id}_x"].should be_nil
+      entry.submit!(true)
+      entry.responses["#{first_response_field.id}_x"].should == 'temp'
+    end
   end
 
   describe 'sortable values' do

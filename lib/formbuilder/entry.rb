@@ -11,9 +11,13 @@ module Formbuilder
     end
 
     def submit!(skip_validation = false)
+      return false if !skip_validation && !valid?
+
+      self.audit_responses
+
       self.update_attributes(
         submitted_at: Time.now,
-        skip_validation: skip_validation
+        skip_validation: true # don't validate twice
       )
     end
 
@@ -198,12 +202,11 @@ module Formbuilder
     #   end
     # end
 
-    # def audit_responses!
-    #   self.normalize_responses
-    #   self.calculate_additional_info
-
-    #   self.save(validate: false)
-    # end
+    def audit_responses
+      form.response_fields.each do |response_field|
+        response_field.audit_response(self.response_value(response_field), self.responses)
+      end
+    end
 
     def calculate_sortable_value(response_field, value)
       return unless value.present?
