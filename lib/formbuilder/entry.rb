@@ -32,14 +32,17 @@ module Formbuilder
       value = self.response_value(response_field)
 
       # value isn't blank (ignore hashes)
-      (value && value.present? && !value.is_a?(Hash)) ||
+      return true if (value && value.present? && !value.is_a?(Hash))
 
       # no options are available
-      (response_field.options_field && Array(response_field.field_options["options"]).empty?) ||
+      return true if (response_field.options_field && Array(response_field.field_options["options"]).empty?)
 
       # there is at least one value (for hashes)
       # reject select fields
-      (value.is_a?(Hash) && value.reject { |k, v| k.in? ['am_pm', 'country'] }.find { |k, v| v.present? })
+      return true if (value.is_a?(Hash) && value.reject { |k, v| k.in? ['am_pm', 'country'] }.find { |k, v| v.present? })
+
+      # otherwise, it's not present
+      return false
     end
 
     # checkboxes can have no values, yet still need to show up as unchecked
@@ -54,7 +57,7 @@ module Formbuilder
         response_field.serialized ? YAML::load(value) : value
       elsif !value && response_field.serialized && response_field.field_type != 'checkboxes'
         {}
-      else
+      else # for checkboxes, we need to know the difference between no value and none selected
         nil
       end
     end
