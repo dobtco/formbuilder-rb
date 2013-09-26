@@ -65,7 +65,7 @@ module SubmittingAnEntrySpecHelper
       time: { hours: '1', minutes: '12', seconds: '00', am_pm: 'PM' },
       website: 'www.google.com',
       email: 'strongbad@homestarrunner.com',
-      file: '../test_files/text.txt',
+      file: '../fixtures/test_files/text.txt',
       address: { street: '123 Main St.', city: 'Oakland', state: 'California', zipcode: '94609', country: 'United Kingdom' }
     }
   end
@@ -83,7 +83,7 @@ module SubmittingAnEntrySpecHelper
       time: { hours: '12', minutes: '1', seconds: '30', am_pm: 'AM' },
       website: 'www.gizoogle.com',
       email: 'homestar@homestarrunner.com',
-      file: '../test_files/text2.txt',
+      file: '../fixtures/test_files/text2.txt',
       address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' }
     }
   end
