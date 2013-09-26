@@ -46,5 +46,4 @@ describe 'Submitting an entry' do
     current_path.should == render_entry_path(form, entry)
   end
 
-
 end
