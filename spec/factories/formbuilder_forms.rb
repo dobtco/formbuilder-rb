@@ -6,6 +6,7 @@ FactoryGirl.define do
     after(:create) do |f|
       options = [{'checked' => 'false', 'label' => 'Choice #1'}, {'checked' => 'false', 'label' => 'Choice #2'}]
 
+      # @todo fix these required fields to match :form_with_one_field
       f.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0)
       f.response_fields.create(label: "Paragraph", type: "Formbuilder::ResponseFieldParagraph", sort_order: 1, field_options: {"size" => 'large', "required" => true, "description" => "How would you complete this project?"})
       f.response_fields.create(label: "Checkboxes", type: "Formbuilder::ResponseFieldCheckboxes", sort_order: 2, field_options: {"options" => options, "required" => true})
@@ -20,6 +21,12 @@ FactoryGirl.define do
       f.response_fields.create(label: "File", type: "Formbuilder::ResponseFieldFile", sort_order: 11, field_options: {"required" => true})
       f.response_fields.create(label: "Email", type: "Formbuilder::ResponseFieldEmail", sort_order: 12, field_options: {"required" => true})
       f.response_fields.create(label: "Address", type: "Formbuilder::ResponseFieldAddress", sort_order: 13, field_options: {"required" => true})
+    end
+  end
+
+  factory :form_with_one_field, parent: :form do
+    after(:create) do |f|
+      f.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0, required: true)
     end
   end
 end

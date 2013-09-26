@@ -9,7 +9,10 @@ module Formbuilder
       return unless record.form
 
       # It's also valid if it has already been submitted
-      return if record.submitted_at
+      return if record.submitted_at_was
+
+      # we can also skip validation by setting this flag
+      return if record.skip_validation
 
       record.form.response_fields.not_admin_only.reject { |rf| !rf.input_field }.each do |response_field|
         @response_field = response_field

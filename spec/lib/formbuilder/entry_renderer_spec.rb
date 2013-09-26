@@ -27,6 +27,11 @@ describe Formbuilder::EntryRenderer do
     Formbuilder::EntryRenderer.new(entry, form).to_html.should match('No response')
   end
 
-  it 'should display the response'
+  it 'should display the response' do
+    rf = form.response_fields.create TEXT_FIELD_PARAMS
+    entry.save_response('buzz', rf)
+    entry.save(validate: false)
+    Formbuilder::EntryRenderer.new(entry, form).to_html.should match('buzz')
+  end
 
 end

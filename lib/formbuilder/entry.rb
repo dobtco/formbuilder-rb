@@ -4,14 +4,24 @@ module Formbuilder
 
     included do
       attr_accessor :old_responses
+      attr_accessor :skip_validation
       validates_with Formbuilder::EntryValidator
       before_save :calculate_responses_text, if: :responses_changed?
       include ActionView::Helpers::TextHelper
     end
 
-    def submit!
-      self.submitted_at = Time.now
-      self.save
+    def submit!(skip_validation = false)
+      self.update_attributes(
+        submitted_at: Time.now,
+        skip_validation: skip_validation
+      )
+    end
+
+    def unsubmit!
+      self.update_attributes(
+        submitted_at: nil,
+        skip_validation: true
+      )
     end
 
     def submitted?
@@ -171,32 +181,28 @@ module Formbuilder
       end
     end
 
-    def normalize_responses
-      response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
-        value = response_value(response_field)
-        next unless value.present?
+    # def normalize_responses
+    #   response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
+    #     value = response_value(response_field)
+    #     next unless value.present?
 
-        case response_field.field_type
-        when 'website'
-          unless value[/^http:\/\//] || value[/^https:\/\//]
-            save_response("http://#{value}", response_field)
-          end
-        end
-      end
-    end
+    #     case response_field.field_type
+    #     when 'website'
+    #       unless value[/^http:\/\//] || value[/^https:\/\//]
+    #         save_response("http://#{value}", response_field)
+    #       end
+    #     end
+    #   end
+    # end
 
-    def audit_responses!
-      self.normalize_responses
-      self.calculate_additional_info
+    # def audit_responses!
+    #   self.normalize_responses
+    #   self.calculate_additional_info
 
-      self.save(validate: false)
-    end
+    #   self.save(validate: false)
+    # end
 
     def calculate_sortable_value(response_field, value)
-      if response_field.field_type == 'checkboxes'
-        return calculate_sortable_value_for_checkboxes(response_field, value)
-      end
-
       return unless value.present?
 
       self.responses["#{response_field.id}_sortable_value"] = case response_field.field_type
@@ -210,7 +216,8 @@ module Formbuilder
       when "file"
         value ? 1 : 0
       when "checkboxes"
-        nil
+        calculate_sortable_value_for_checkboxes(response_field, value)
+        return nil
       when "price"
         "#{value['dollars'] || '0'}.#{value['cents'] || '0'}".to_f
       else

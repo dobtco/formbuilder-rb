@@ -35,10 +35,6 @@ module Formbuilder
 
     ALLOWED_PARAMS = [:key, :blind, :label, :field_options, :required, :admin_only]
 
-    def required?
-      field_options['required']
-    end
-
     def length_validations(include_units = true)
       return_hash = {
         minlength: field_options[:minlength],
