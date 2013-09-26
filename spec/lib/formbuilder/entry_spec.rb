@@ -1,5 +1,13 @@
 require 'spec_helper'
 
+module EntrySpecHelper
+  def first_response_field
+    form.response_fields.first
+  end
+end
+
+include EntrySpecHelper
+
 describe Formbuilder::Entry do
 
   let!(:form) { FactoryGirl.create(:form_with_one_field) }
@@ -33,7 +41,11 @@ describe Formbuilder::Entry do
   end
 
   describe '#value_present?' do
-    it 'should be true if there is a value'
+    it 'should be true if there is a value' do
+      entry.responses[first_response_field.id.to_s] = 'foo'
+      entry.value_present?(first_response_field).should == true
+    end
+
     it 'should be true if there are no options for a radio/checkbox/dropdown/etc'
     it 'should be true if value is a hash and has at least one response'
   end
