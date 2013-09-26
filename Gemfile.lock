@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/jonleighton/spring.git
+  revision: 38214cfd773daaa3345604743f795271824dcf49
+  specs:
+    spring (0.0.10)
+
 PATH
   remote: .
   specs:
@@ -186,5 +192,6 @@ DEPENDENCIES
   guard-rspec
   launchy
   rspec-rails
+  spring!
   terminal-notifier-guard
   thin

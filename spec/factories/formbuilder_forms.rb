@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :form, class: Formbuilder::Form do
-
   end
 
   factory :kitchen_sink_form, parent: :form do

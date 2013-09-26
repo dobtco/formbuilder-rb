@@ -2,6 +2,6 @@ require 'spec_helper'
 
 describe Formbuilder::FormRenderer do
 
-  pending
+  # Intentionally blank, this gets tested w/ a feature spec
 
 end

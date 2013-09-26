@@ -9,7 +9,7 @@ module Formbuilder
     end
 
     def fields
-      return_fields = @form.response_fields.reject { |rf| !rf.field_class.input_field? }
+      return_fields = @form.response_fields.reject { |rf| !rf.input_field }
       return_fields.reject! { |rf| rf.blind? } unless @options[:show_blind]
       return_fields
     end
@@ -41,7 +41,7 @@ module Formbuilder
 
     def field_value(rf)
       value = @entry.response_value(rf)
-      rf.field_class.render_entry(rf, value, entry: @entry)
+      rf.render_entry(value, entry: @entry)
     end
   end
 end
