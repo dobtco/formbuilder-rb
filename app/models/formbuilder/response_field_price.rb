@@ -35,7 +35,7 @@ module Formbuilder
     # only one is required, and it must consist only of numbers
     def validate_response(value)
       value.select { |k, v| k.in?(['dollars', 'cents']) && v.present? }.each do |k, v|
-        unless v =~ /^[0-9]+$/
+        unless (Float(v) rescue 0) > 0
           return "isn't a valid price."
         end
       end

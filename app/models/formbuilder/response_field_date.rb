@@ -37,7 +37,7 @@ module Formbuilder
     end
 
     def validate_response(value)
-      if !(DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i) rescue false)
+      if value['year'].to_i == 0 || !(DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i) rescue false)
         "isn't a valid date."
       end
     end

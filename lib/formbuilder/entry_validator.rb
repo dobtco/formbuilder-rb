@@ -23,11 +23,13 @@ module Formbuilder
           next
         end
 
-        # Field-specific validation
-        add_error(@response_field.validate_response(@value))
+        if @record.value_present?(@response_field)
+          # Field-specific validation
+          add_error(@response_field.validate_response(@value))
 
-        SHARED_VALIDATION_METHODS.each do |method_name|
-          run_validation(method_name)
+          SHARED_VALIDATION_METHODS.each do |method_name|
+            run_validation(method_name)
+          end
         end
       end
     end
@@ -56,21 +58,21 @@ module Formbuilder
     end
 
     def min_max_length_characters
-      if @response_field.field_options["minlength"].present? && @value && (@value.length < @response_field.field_options["minlength"].to_i)
+      if @response_field.field_options["minlength"].present? && (@value.length < @response_field.field_options["minlength"].to_i)
         return "is too short. It should be #{@response_field.field_options["minlength"]} characters or more."
       end
 
-      if @response_field.field_options["maxlength"].present? && @value && (@value.length > @response_field.field_options["maxlength"].to_i)
+      if @response_field.field_options["maxlength"].present? && (@value.length > @response_field.field_options["maxlength"].to_i)
         return "is too long. It should be #{@response_field.field_options["maxlength"]} characters or less."
       end
     end
 
     def min_max_length_words
-      if @response_field.field_options["minlength"].present? && @value && (@value.scan(/\w+/).count < @response_field.field_options["minlength"].to_i)
+      if @response_field.field_options["minlength"].present? && (@value.scan(/\w+/).count < @response_field.field_options["minlength"].to_i)
         return "is too short. It should be #{@response_field.field_options["minlength"]} words or more."
       end
 
-      if @response_field.field_options["maxlength"].present? && @value && (@value.scan(/\w+/).count > @response_field.field_options["maxlength"].to_i)
+      if @response_field.field_options["maxlength"].present? && (@value.scan(/\w+/).count > @response_field.field_options["maxlength"].to_i)
         return "is too long. It should be #{@response_field.field_options["maxlength"]} words or less."
       end
     end
