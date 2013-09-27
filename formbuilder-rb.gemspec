@@ -5,7 +5,7 @@ require "formbuilder/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "formbuilder"
+  s.name        = "formbuilder-rb"
   s.version     = Formbuilder::VERSION
   s.authors     = ["Adam Becker"]
   s.email       = ["adam@dobt.co"]

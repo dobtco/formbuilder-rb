@@ -7,7 +7,7 @@ GIT
 PATH
   remote: .
   specs:
-    formbuilder (0.0.3)
+    formbuilder-rb (0.0.1)
       carrierwave
       geocoder
       pg
@@ -190,7 +190,7 @@ DEPENDENCIES
   carrierwave
   coveralls
   factory_girl_rails
-  formbuilder!
+  formbuilder-rb!
   geocoder
   guard-rspec
   launchy
