@@ -13,6 +13,14 @@ Since Formbuilder.rb is a fairly non-trial piece of software, it's important to 
 
 If you have a few moments, consider reading the source, especially the Rails app in `spec/dummy`, as it should give you a good idea of how Formbuilder integrates.
 
+### Requirements
+
+**Postgres is currently required.** See [Issue #1](https://github.com/dobtco/formbuilder-rb/issues/1).
+
+[Carrierwave](https://github.com/carrierwaveuploader/carrierwave) and [Rmagick](https://github.com/rmagick/rmagick) for file uploads.
+[Geocoder](https://github.com/alexreisner/geocoder) to geocode address fields.
+
+
 ### Installation
 #### 1) Install the gem
 `gem 'formbuilder-rb'`
