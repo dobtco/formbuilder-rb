@@ -1,11 +1,11 @@
 Formbuilder.rb [![circle ci status](https://circleci.com/gh/dobtco/formbuilder-rb.png?circle-token=a769ad2fc81271bc1869b5e5a95053efa36b376f)](https://circleci.com/gh/dobtco/formbuilder-rb) <a href='https://coveralls.io/r/dobtco/formbuilder-rb'><img src='https://coveralls.io/repos/dobtco/formbuilder-rb/badge.png' alt='Coverage Status' /></a>
 ========
 
-Formbuilder.rb is a [Rails Engine](#) that's designed as a compliment to [Formbuilder.js](https://github.com/dobtco/formbuilder), a library that lets your users create their own webforms inside of your application.
+Formbuilder.rb is a [Rails Engine](http://edgeguides.rubyonrails.org/engines.html) that's designed as a compliment to [Formbuilder.js](https://github.com/dobtco/formbuilder), a library that lets your users create their own webforms inside of your application.
 
 Since Formbuilder.rb is a fairly non-trial piece of software, it's important to understand its components and how it works:
 
-1. We add `ResponseField`, `EntryAttachment`, and `Form` models to your application.  (Each type of response field (text, checkboxes, dropdown, etc.) uses [STI](), inheriting from the `ResponseField` model.)
+1. We add `ResponseField`, `EntryAttachment`, and `Form` models to your application.  (Each type of response field (text, checkboxes, dropdown, etc.) uses [STI](blog.thirst.co/post/14885390861/rails-single-table-inheritance‎), inheriting from the `ResponseField` model.)
 3. You `include Formbuilder::Entry` in an existing model.
 4. We add a few classes to help you render forms and entries.
 
