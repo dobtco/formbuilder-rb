@@ -11,7 +11,10 @@ module Formbuilder
                           @form.response_fields.find { |rf| rf.id == field_params[:id].to_i } :
                           @form.response_fields.build
 
-        response_field.update_attributes(pick(field_params, *ResponseField::ALLOWED_PARAMS).merge(sort_order: i, type: "ResponseFields::#{field_params[:field_type].camelize}"))
+        response_field.update_attributes(pick(field_params, *ResponseField::ALLOWED_PARAMS).merge(
+          sort_order: i,
+          type: "Formbuilder::ResponseField#{field_params[:field_type].camelize}"
+        ))
         response_field.cid = field_params[:cid]
         existing_response_field_ids.push response_field.id
       end
