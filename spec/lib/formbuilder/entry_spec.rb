@@ -151,7 +151,7 @@ describe Formbuilder::Entry do
       entry.save(validate: false)
       entry.responses["#{first_response_field.id}_x"].should be_nil
       entry.submit!(true)
-      entry.responses["#{first_response_field.id}_x"].should == 'temp' # @todo geocoder
+      entry.responses["#{first_response_field.id}_x"].should == Geocoder::Lookup::Test.read_stub(nil)[0]['latitude']
     end
   end
 

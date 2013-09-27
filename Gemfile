@@ -5,8 +5,9 @@ source "https://rubygems.org"
 # development dependencies will be added by default to the :development group.
 gemspec
 
-# Explicitly require carrierwave
+# Explicitly require gems
 gem 'carrierwave', require: 'carrierwave'
+gem 'geocoder', require: 'geocoder'
 
 # Bundle spring from github
 gem 'spring', github: 'jonleighton/spring'

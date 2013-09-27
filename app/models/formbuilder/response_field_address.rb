@@ -55,12 +55,11 @@ module Formbuilder
 
     def audit_response(value, all_responses)
       begin
-        # @todo add Geocoder
-        # coords = Geocoder.coordinates("#{value['street']} #{value['city']} " +
-        #                               "#{value['state']} #{value['zipcode']} #{value['country']}")
+        coords = Geocoder.coordinates("#{value['street']} #{value['city']} " +
+                                      "#{value['state']} #{value['zipcode']} #{value['country']}")
 
-        all_responses["#{self.id}_x"] = 'temp'#coords[0]
-        all_responses["#{self.id}_y"] = 'temp'#coords[1]
+        all_responses["#{self.id}_x"] = coords[0]
+        all_responses["#{self.id}_y"] = coords[1]
       rescue
         all_responses["#{self.id}_x"] = nil
         all_responses["#{self.id}_y"] = nil
