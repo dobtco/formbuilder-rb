@@ -7,7 +7,7 @@ GIT
 PATH
   remote: .
   specs:
-    formbuilder (0.0.1)
+    formbuilder (0.0.2)
       carrierwave
       geocoder
       pg
