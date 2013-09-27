@@ -8,7 +8,7 @@ describe 'Submitting an entry' do
   let!(:entry) { e = Entry.new(form: form); e.save(validate: false); e }
 
   before do
-    visit form_path(form.id, entry.id)
+    visit test_form_path(form.id, entry.id)
   end
 
   it 'should render the form fields properly' do

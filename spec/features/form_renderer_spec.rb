@@ -11,7 +11,7 @@ describe 'Rendering a form properly' do
 
     before do
       form.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0)
-      visit form_path(form.id, entry.id)
+      visit test_form_path(form.id, entry.id)
     end
 
     it 'should render the field and its label' do
