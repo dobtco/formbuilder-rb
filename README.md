@@ -9,7 +9,7 @@ Since Formbuilder.rb is a fairly non-trial piece of software, it's important to 
 3. You `include Formbuilder::Entry` in an existing model.
 4. We add a few classes to help you render forms and entries.
 
-*Note: All Formbuidler models and classes are namespaced within the `Formbuilder` module.*
+*Note: All Formbuilder models and classes are namespaced within the `Formbuilder` module.*
 
 If you have a few moments, consider reading the source, especially the Rails app in `spec/dummy`, as it should give you a good idea of how Formbuilder integrates.
 
