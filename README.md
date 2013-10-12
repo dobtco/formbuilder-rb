@@ -22,8 +22,8 @@ If you have a few moments, consider reading the source, especially the Rails app
 
 
 ### Installation
-#### 1) Install the gem
-`gem 'formbuilder-rb'`
+#### 1) In your Gemfile
+`gem 'formbuilder-rb', require: 'formbuilder'`
 
 #### 2) Create the migrations for the Formbuilder models
 1. `rake formbuilder:install:migrations`
