@@ -32,7 +32,7 @@ module Formbuilder
         rf.cid = cids[rf.id]
       end
 
-      render json: @form.response_fields.to_json(methods: [:field_type, :cid])
+      render json: @form.response_fields_json
     end
 
     private
