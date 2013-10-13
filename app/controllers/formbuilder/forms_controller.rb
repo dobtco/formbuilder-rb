@@ -41,8 +41,8 @@ module Formbuilder
     end
 
     def transformed_field_params(field_params, i)
-      filtered_params = field_params.reject { |k, v|
-        !k.to_sym.in?(Formbuilder::ResponseField::ALLOWED_PARAMS) || v.blank?
+      filtered_params = field_params.select { |k, _|
+        k.to_sym.in?(Formbuilder::ResponseField::ALLOWED_PARAMS)
       }.merge(
         sort_order: i,
         type: "Formbuilder::ResponseField#{field_params[:field_type].camelize}"
