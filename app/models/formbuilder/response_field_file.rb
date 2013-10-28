@@ -16,7 +16,7 @@ module Formbuilder
     end
 
     def render_entry(value, opts = {})
-      attachment = EntryAttachment.find(value)
+      attachment = value && EntryAttachment.where(id: value).first
 
       return unless attachment
 
