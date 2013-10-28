@@ -93,7 +93,7 @@ module Formbuilder
     def render_actions
       """
         <div class='form-actions'>
-          <button class='button'>Submit</button>
+          <button class='button primary'>Submit</button>
           <a class='button save-draft-button' data-loading-text='All changes saved'>Save draft</a>
         </div>
       """.html_safe
