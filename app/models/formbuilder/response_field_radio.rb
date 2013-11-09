@@ -23,8 +23,8 @@ module Formbuilder
 
       if self[:field_options]['include_other_option']
         str += """
-          <div class='other-option'>
-            <label class='fb-option'>
+          <div class='fb-option'>
+            <label>
               <input type='radio' name='response_fields[#{self[:id]}]' #{value == 'Other' ? 'checked' : ''} value='Other' />
               Other
             </label>
