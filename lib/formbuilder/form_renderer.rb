@@ -42,7 +42,7 @@ module Formbuilder
       value = @entry.try(:response_value, @field)
 
       """
-        <div class='response-field-wrapper response-field-#{@field.field_type} #{@entry.try(:error_for, @field) && 'error'}'>
+        <div class='fb-field-wrapper response-field-#{@field.field_type} #{@entry.try(:error_for, @field) && 'error'}'>
           #{render_label}
           #{@field.render_input(value, entry: @entry)}
           <div class='cf'></div>
