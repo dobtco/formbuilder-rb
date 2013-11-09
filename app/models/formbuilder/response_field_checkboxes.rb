@@ -14,7 +14,7 @@ module Formbuilder
         checked = value.present? ? value[option['label']] : (option['checked'] == 'true')
 
         """
-          <label>
+          <label class='fb-option'>
             <input type='checkbox' name='response_fields[#{self[:id]}][#{i}]' #{checked ? 'checked' : ''} value='on' />
             #{option['label']}
           </label>
@@ -24,7 +24,7 @@ module Formbuilder
       if self[:field_options]['include_other_option']
         str += """
           <div class='other-option'>
-            <label>
+            <label class='fb-option'>
               <input type='checkbox' name='response_fields[#{self[:id]}][other_checkbox]' #{value['Other'] ? 'checked' : ''} value='on' />
               Other
             </label>
