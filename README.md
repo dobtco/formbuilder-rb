@@ -46,7 +46,7 @@ end
 ```ruby
 class MovieTheater < ActiveRecord::Base
 
-  has_one :form, as: :formable
+  has_one :form, as: :formable, class_name: 'Formbuilder::Form'
 
 end
 ```
