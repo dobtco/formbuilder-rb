@@ -40,5 +40,10 @@ module Formbuilder
       str
     end
 
+    def audit_response(value, all_responses)
+      return unless value && (record = Formbuilder::EntryAttachment.find(value))
+      all_responses["#{self.id}_filename"] = record.read_attribute(:upload)
+    end
+
   end
 end
