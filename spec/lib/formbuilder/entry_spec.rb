@@ -153,6 +153,16 @@ describe Formbuilder::Entry do
       entry.submit!(true)
       entry.responses["#{first_response_field.id}_x"].should == Geocoder::Lookup::Test.read_stub(nil)[0]['latitude']
     end
+
+    it 'should run the file audit' do
+      first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldFile')
+      entry.save_responses({ "#{first_response_field.id}" => file_value }, form.response_fields.reload)
+
+      entry.responses["#{first_response_field.id}_filename"].should be_nil
+      entry.submit!(true)
+      entry.responses["#{first_response_field.id}_filename"].should == 'text2.txt'
+
+    end
   end
 
   describe 'sortable values' do
