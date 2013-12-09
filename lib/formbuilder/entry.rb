@@ -228,6 +228,8 @@ module Formbuilder
         return nil
       when "price"
         "#{value['dollars'] || '0'}.#{value['cents'] || '0'}".to_f
+      when "address"
+        "#{value['street']} #{value['city']} #{value['state']} #{value['zipcode']} #{value['country']}"
       else
         # do we really need to sort more than the first 10 characters of a string?
         value[0..10]

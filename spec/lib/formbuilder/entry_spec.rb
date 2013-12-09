@@ -207,6 +207,13 @@ describe Formbuilder::Entry do
       ensure_sort_order(e1, e2)
     end
 
+    it 'should sort addresses properly' do
+      first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldAddress')
+      e1 = create_entry({ 'street' => 'a street' })
+      e2 = create_entry({ 'street' => 'b street' })
+      ensure_sort_order(e1, e2)
+    end
+
     it 'should sort text properly, obvz' do
       e1 = create_entry('BBBaaaaa')
       e2 = create_entry('aaaBBB')
