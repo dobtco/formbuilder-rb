@@ -206,6 +206,8 @@ module Formbuilder
       form.response_fields.each do |response_field|
         response_field.audit_response(self.response_value(response_field), self.responses)
       end
+
+      self.responses_will_change! # hack to make sure column is marked as dirty
     end
 
     def calculate_sortable_value(response_field, value)
