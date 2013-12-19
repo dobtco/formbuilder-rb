@@ -11,7 +11,7 @@ module Formbuilder
       """
         <div class='input-line'>
           <span class='hours'>
-            <input type='text' name='response_fields[#{self[:id]}][hours]' value='#{value['hours']}' maxlength='2' />
+            <input type='text' name='response_fields[#{self[:id]}][hours]' id='response_fields_#{self[:id]}' value='#{value['hours']}' maxlength='2' />
             <label>HH</label>
           </span>
 

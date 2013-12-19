@@ -58,7 +58,7 @@ module Formbuilder
       return unless @field.input_field
 
       """
-        <label for='response_fields[#{@field.id}]'>
+        <label for='response_fields_#{@field.id}'>
           #{@field[:label]}
           #{render_label_required if @field.required?}
         </label>

@@ -12,7 +12,7 @@ module Formbuilder
       """
         <div class='input-line'>
           <span class='street'>
-            <input type'text' name='response_fields[#{self[:id]}][street]' value='#{value['street']}' />
+            <input type'text' name='response_fields[#{self[:id]}][street]' id='response_fields_#{self[:id]}' value='#{value['street']}' />
             <label>Address</label>
           </span>
         </div>

@@ -11,7 +11,7 @@ module Formbuilder
 
       """
         <span class='existing-filename'>#{attachment.try(:upload).try(:file).try(:filename).try(:gsub, /\?.*$/, '')}</span>
-        <input type='file' name='response_fields[#{self[:id]}]' />
+        <input type='file' name='response_fields[#{self[:id]}]' id='response_fields_#{self[:id]}' />
       """
     end
 

@@ -16,7 +16,7 @@ module Formbuilder
       end
 
       """
-        <select name='response_fields[#{self[:id]}]'>
+        <select name='response_fields[#{self[:id]}]' id='response_fields_#{self[:id]}'>
           #{options}
         </select>
       """

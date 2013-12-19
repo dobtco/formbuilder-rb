@@ -13,7 +13,7 @@ module Formbuilder
           <span class='above-line'>$</span>
 
           <span class='dollars'>
-            <input type='text' name='response_fields[#{self[:id]}][dollars]' value='#{value['dollars']}' />
+            <input type='text' name='response_fields[#{self[:id]}][dollars]' id='response_fields_#{self[:id]}' value='#{value['dollars']}' />
             <label>Dollars</label>
           </span>
 
