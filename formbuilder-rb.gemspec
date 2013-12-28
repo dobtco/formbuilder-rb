@@ -10,11 +10,12 @@ Gem::Specification.new do |s|
   s.authors     = ["Adam Becker"]
   s.email       = ["adam@dobt.co"]
   s.homepage    = "https://github.com/dobtco/formbuilder-rb"
-  s.summary     = "Rails backend for https://github.com/dobtco/formbuilder"
-  s.description = "Rails backend for https://github.com/dobtco/formbuilder"
+  s.summary     = "Build and save custom forms."
+  s.description = "This is a Rails Engine for https://github.com/dobtco/formbuilder."
+  s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.files = `git ls-files`.split("\n")
+  s.test_files = `git ls-files -- {features,spec}/*`.split("\n")
 
   s.add_dependency "rails", ">= 4.0.0"
 
