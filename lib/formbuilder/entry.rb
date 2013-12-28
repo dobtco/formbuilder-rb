@@ -54,22 +54,28 @@ module Formbuilder
       when "checkboxes"
         # transform checkboxes into {label => on/off} pairs
         values = {}
+        value_present = false
 
         (response_field[:field_options]["options"] || []).each_with_index do |option, index|
           label = response_field.field_options["options"][index]["label"]
-          values[option["label"]] = raw_value && raw_value[index.to_s] == "on"
+
+          if raw_value && raw_value[index.to_s] == "on"
+            value_present = true
+            values[option["label"]] = true
+          else
+            values[option["label"]] = false
+          end
         end
 
         if raw_value && raw_value['other_checkbox'] == 'on'
+          responses["#{response_field.id}_other"] = true
           values['Other'] = raw_value['other']
+          value_present = true
         else
-          values.delete('Other') # @todo this might cause unexpected behavior to the user. we should hide/show the other field in the frontend, too
+          values.delete('Other')
         end
 
-        # Save 'other' value
-        responses["#{response_field.id}_other"] = raw_value && raw_value['other_checkbox'] == 'on' ?
-                                                    true :
-                                                    nil
+        responses["#{response_field.id}_present"] = value_present
 
         values
 

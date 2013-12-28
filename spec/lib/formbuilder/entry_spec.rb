@@ -204,6 +204,17 @@ describe Formbuilder::Entry do
       e2.responses["#{first_response_field.id}_sortable_values_Choice #1"].should == false
     end
 
+    it 'should cache checkboxes present?' do
+      first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldCheckboxes',
+                                             field_options: { 'options' => [{'checked' => 'false', 'label' => 'Choice #1'}] })
+
+      e1 = create_entry({ '0' => 'on' })
+      e2 = create_entry({})
+
+      e1.responses["#{first_response_field.id}_present"].should == true
+      e2.responses["#{first_response_field.id}_present"].should == false
+    end
+
     it 'should sort prices properly' do
       first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldPrice')
       e1 = create_entry({ 'dollars' => '05', 'cents' => '02' })
