@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20130926205845) do
   create_table "formbuilder_entry_attachments", force: true do |t|
     t.string   "upload"
     t.string   "content_type"
+    t.integer  "file_size"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
