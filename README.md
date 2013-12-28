@@ -79,8 +79,8 @@ end
 resources :forms, only: [:update]
 
 # app/controllers/forms_controller.rb
-class FormsController < Formbuilder::FormsController
-  ...
+class FormsController < ApplicationController
+  include Formbuilder::Concerns::FormsController
 end
 ```
 

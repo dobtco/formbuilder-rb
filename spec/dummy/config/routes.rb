@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :forms, only: [:update], controller: 'formbuilder/forms'
+  resources :forms, only: [:update]
 
   controller :test, scope: :test do
     get 'forms/:form_id/:entry_id', action: :show_form, as: :test_form
