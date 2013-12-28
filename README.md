@@ -36,18 +36,14 @@ If you have a few moments, consider reading the source, especially the Rails app
 #  responses_text  :text
 
 class Entry < ActiveRecord::Base
-
   include Formbuilder::Entry
-
 end
 ```
 
 #### 4) Associate a form with an existing model (optional)
 ```ruby
 class MovieTheater < ActiveRecord::Base
-
   has_one :form, as: :formable, class_name: 'Formbuilder::Form'
-
 end
 ```
 
