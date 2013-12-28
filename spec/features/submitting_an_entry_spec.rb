@@ -42,7 +42,7 @@ describe 'Submitting an entry' do
     # and submit the bid
     click_button 'Submit'
 
-    entry.reload.should be_submitted
+    entry.reload.should be_submitted # @todo fuck
     current_path.should == render_entry_path(form, entry)
   end
 

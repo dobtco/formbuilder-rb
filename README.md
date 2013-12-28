@@ -31,7 +31,6 @@ If you have a few moments, consider reading the source, especially the Rails app
 
 #### 3) The `Entry` model gets mixed in to an existing model in your application
 ```ruby
-#  submitted_at    :datetime
 #  responses       :hstore
 #  responses_text  :text
 

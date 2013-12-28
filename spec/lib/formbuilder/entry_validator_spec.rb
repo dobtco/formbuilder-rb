@@ -10,20 +10,16 @@ describe Formbuilder::EntryValidator do
       form.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0, required: true)
     end
 
-    it 'should always validate if there is no form' do
+    it 'should validate properly' do
       entry.should_not be_valid
+    end
+
+    it 'should not validate if there is no form' do
       entry.form = nil
       entry.should be_valid
     end
 
-    it 'should always validate if it was already submitted' do
-      entry.should_not be_valid
-      entry.submit!(true)
-      entry.should be_valid
-    end
-
-    it 'should validate if the :skip_validation flag is passed' do
-      entry.should_not be_valid
+    it 'should not validate if the :skip_validation flag is passed' do
       entry.skip_validation = true
       entry.should be_valid
     end

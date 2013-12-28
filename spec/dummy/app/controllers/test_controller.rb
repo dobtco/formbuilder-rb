@@ -8,11 +8,7 @@ class TestController < ApplicationController
   def post_form
     @entry.save_responses(params[:response_fields], @form.response_fields.not_admin_only)
 
-    if params[:draft_only] != 'true' && @entry.valid?
-      @entry.submit!
-    else
-      @entry.save(validate: false)
-    end
+    @entry.save(validate: false)
 
     respond_to do |format|
       format.json do
@@ -20,10 +16,8 @@ class TestController < ApplicationController
       end
 
       format.html do
-        if @entry.submitted?
+        if @entry.valid?
           redirect_to render_entry_path(@form, @entry)
-        elsif params[:draft_only] == 'true'
-          redirect_to :back
         else
           render :show_form
         end

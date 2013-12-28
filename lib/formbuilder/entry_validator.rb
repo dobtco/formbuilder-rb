@@ -6,10 +6,7 @@ module Formbuilder
       @record = record
 
       # I guess it's valid if there's no form?
-      return unless record.form
-
-      # It's also valid if it has already been submitted
-      return if record.submitted_at_was
+      return if record.form.blank?
 
       # we can also skip validation by setting this flag
       return if record.skip_validation

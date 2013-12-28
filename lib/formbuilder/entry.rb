@@ -5,31 +5,10 @@ module Formbuilder
     included do
       attr_accessor :old_responses
       attr_accessor :skip_validation
+
+      before_validation :normalize_responses
       validates_with Formbuilder::EntryValidator
       before_save :calculate_responses_text, if: :responses_changed?
-      include ActionView::Helpers::TextHelper
-    end
-
-    def submit!(skip_validation = false)
-      return false if !skip_validation && !valid?
-
-      self.audit_responses
-
-      self.update_attributes(
-        submitted_at: Time.now,
-        skip_validation: true # don't validate twice
-      )
-    end
-
-    def unsubmit!
-      self.update_attributes(
-        submitted_at: nil,
-        skip_validation: true
-      )
-    end
-
-    def submitted?
-      self.submitted_at.present?
     end
 
     def value_present?(response_field)
@@ -177,7 +156,8 @@ module Formbuilder
         case response_field.field_type
         when 'address'
           begin
-            coords = Geocoder.coordinates("#{value['street']} #{value['city']} #{value['state']} #{value['zipcode']} #{value['country']}")
+            coords = Geocoder.coordinates("#{value['street']} #{value['city']} #{value['state']} " +
+                                          "#{value['zipcode']} #{value['country']}")
             self.responses["#{response_field.id}_x"] = coords[0]
             self.responses["#{response_field.id}_y"] = coords[1]
           rescue
@@ -188,7 +168,9 @@ module Formbuilder
       end
     end
 
-    # def normalize_responses
+    # Normalizations get run before validation.
+    def normalize_responses
+      raise 'not yet implemented'
     #   response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
     #     value = response_value(response_field)
     #     next unless value.present?
@@ -200,14 +182,25 @@ module Formbuilder
     #       end
     #     end
     #   end
-    # end
+    end
 
+    # Audits get run explicitly.
     def audit_responses
       form.response_fields.each do |response_field|
         response_field.audit_response(self.response_value(response_field), self.responses)
       end
 
-      self.responses_will_change! # hack to make sure column is marked as dirty
+      self.responses_will_change!
+    end
+
+    def audit_responses!
+      audit_responses
+      self.save(validate: false)
+    end
+
+    def normalize_responses!
+      normalize_responses
+      self.save(validate: false)
     end
 
     def calculate_sortable_value(response_field, value)

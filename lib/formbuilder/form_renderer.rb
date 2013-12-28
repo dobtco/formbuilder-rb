@@ -26,9 +26,7 @@ module Formbuilder
     end
 
     def hidden_fields
-      """
-        <input type='hidden' name='draft_only' />
-      """.html_safe
+      ''
     end
 
     def render_fields
@@ -94,7 +92,6 @@ module Formbuilder
       """
         <div class='form-actions'>
           <button class='button primary'>Submit</button>
-          <a class='button save-draft-button' data-loading-text='All changes saved'>Save draft</a>
         </div>
       """.html_safe
     end

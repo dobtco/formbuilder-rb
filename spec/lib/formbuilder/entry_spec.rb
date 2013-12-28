@@ -33,29 +33,8 @@ describe Formbuilder::Entry do
 
   subject { entry }
 
-  describe '#submitted?' do
-    it { should_not be_submitted }
-
-    describe 'when submitted' do
-      before { entry.submit!(true) }
-      it { should be_submitted }
-    end
-  end
-
-  describe '#submit!' do
-    it 'should validate by default' do
-      entry.submit!.should == false
-      entry.submit!(true).should == true
-    end
-  end
-
-  describe '#unsubmit!' do
-    it 'should properly unsubmit' do
-      entry.submit!(true)
-      entry.reload.should be_submitted
-      entry.unsubmit!
-      entry.reload.should_not be_submitted
-    end
+  describe 'callbacks' do
+    pending
   end
 
   describe '#value_present?' do
@@ -144,24 +123,32 @@ describe Formbuilder::Entry do
     end
   end
 
-  describe 'normalizing & auditing responses' do
-    it 'should run all audits when saving' do
+  describe 'normalize responses' do
+    it 'should run when called explicitly' do
+      entry.normalize_responses!
+    end
+
+    it 'should run before validation' do
+      entry.normalize_responses!
+    end
+  end
+
+  describe 'auditing responses' do
+    it 'should run all audits when called explicitly' do
       first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldAddress')
       entry.responses[first_response_field.id.to_s] = { 'street' => 'hi' }.to_yaml
       entry.save(validate: false)
       entry.responses["#{first_response_field.id}_x"].should be_nil
-      entry.submit!(true)
+      entry.audit_responses
       entry.responses["#{first_response_field.id}_x"].should == Geocoder::Lookup::Test.read_stub(nil)[0]['latitude']
     end
 
     it 'should run the file audit' do
       first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldFile')
       entry.save_responses({ "#{first_response_field.id}" => file_value }, form.response_fields.reload)
-
       entry.responses["#{first_response_field.id}_filename"].should be_nil
-      entry.submit!(true)
+      entry.audit_responses
       entry.responses["#{first_response_field.id}_filename"].should == 'text2.txt'
-
     end
   end
 

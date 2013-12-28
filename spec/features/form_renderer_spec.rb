@@ -15,6 +15,7 @@ describe 'Rendering a form properly' do
     end
 
     it 'should render the field and its label' do
+      pending
       # label
       # required?
       # description

@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(version: 20130926205845) do
 
   create_table "entries", force: true do |t|
     t.integer  "form_id"
-    t.datetime "submitted_at"
     t.hstore   "responses",      default: "", null: false
     t.text     "responses_text"
     t.datetime "created_at"
