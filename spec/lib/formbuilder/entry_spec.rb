@@ -60,10 +60,6 @@ describe Formbuilder::Entry do
     end
   end
 
-  describe '#value_present_or_checkboxes?' do
-    pending 'need to investigate how necessary this method really is'
-  end
-
   describe '#response_value' do
     it 'should unserialize a value if necessary' do
       first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldCheckboxes')

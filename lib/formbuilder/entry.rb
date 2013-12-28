@@ -28,11 +28,6 @@ module Formbuilder
       return false
     end
 
-    # checkboxes can have no values, yet still need to show up as unchecked
-    def value_present_or_checkboxes?(response_field)
-      response_field.field_type == 'checkboxes' || value_present?(response_field)
-    end
-
     def response_value(response_field)
       value = responses && responses[response_field.id.to_s]
 
