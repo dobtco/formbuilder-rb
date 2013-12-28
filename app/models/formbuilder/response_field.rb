@@ -78,6 +78,9 @@ module Formbuilder
     def audit_response(value, all_responses)
     end
 
+    def normalize_response(value, all_responses)
+    end
+
     def validate_response(value)
     end
 

@@ -7,22 +7,8 @@ class TestController < ApplicationController
 
   def post_form
     @entry.save_responses(params[:response_fields], @form.response_fields.not_admin_only)
-
     @entry.save(validate: false)
-
-    respond_to do |format|
-      format.json do
-        render json: { ok: true }
-      end
-
-      format.html do
-        if @entry.valid?
-          redirect_to render_entry_path(@form, @entry)
-        else
-          render :show_form
-        end
-      end
-    end
+    redirect_to :back
   end
 
   def render_entry

@@ -8,7 +8,6 @@ module SubmittingAnEntrySpecHelper
   end
 
   def save_draft_and_refresh
-    find('input[name=draft_only]').set('true')
     click_button 'Submit'
   end
 

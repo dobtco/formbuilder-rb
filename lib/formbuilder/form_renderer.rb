@@ -26,7 +26,7 @@ module Formbuilder
     end
 
     def hidden_fields
-      ''
+      ''.html_safe
     end
 
     def render_fields

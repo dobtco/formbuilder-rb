@@ -170,18 +170,13 @@ module Formbuilder
 
     # Normalizations get run before validation.
     def normalize_responses
-      raise 'not yet implemented'
-    #   response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
-    #     value = response_value(response_field)
-    #     next unless value.present?
+      return if form.blank?
 
-    #     case response_field.field_type
-    #     when 'website'
-    #       unless value[/^http:\/\//] || value[/^https:\/\//]
-    #         save_response("http://#{value}", response_field)
-    #       end
-    #     end
-    #   end
+      form.response_fields.each do |response_field|
+        response_field.normalize_response(self.response_value(response_field), self.responses)
+      end
+
+      self.responses_will_change!
     end
 
     # Audits get run explicitly.

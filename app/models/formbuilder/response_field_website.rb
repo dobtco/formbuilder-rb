@@ -34,5 +34,13 @@ module Formbuilder
       end
     end
 
+    def normalize_response(value, all_responses)
+      return if value.blank?
+
+      unless value[/^http:\/\//] || value[/^https:\/\//]
+        all_responses[self.id.to_s] = "http://#{value}"
+      end
+    end
+
   end
 end
