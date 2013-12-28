@@ -34,13 +34,12 @@ module Formbuilder
     # format: [dollars] [cents]
     # only one is required, and it must consist only of numbers
     def validate_response(value)
-      value.select { |k, v| k.in?(['dollars', 'cents']) && v.present? }.each do |k, v|
-        unless (Float(v) rescue 0) > 0
-          return "isn't a valid price."
-        end
-      end
+      if value.select { |k, v| k.in?(['dollars', 'cents']) && v.present? }
+              .find { |k, v| (Float(v) rescue nil).nil? }
+              .present?
 
-      return nil
+        "isn't a valid price."
+      end
     end
 
   end

@@ -143,7 +143,7 @@ describe Formbuilder::EntryValidator do
       entry.save_response({ 'dollars' => 'a' }, field)
       entry.should_not be_valid
       entry.save_response({ 'dollars' => '0' }, field)
-      entry.should_not be_valid
+      entry.should be_valid
       entry.save_response({ 'dollars' => '1a' }, field)
       entry.should_not be_valid
       entry.save_response({ 'dollars' => '1' }, field)
@@ -151,12 +151,14 @@ describe Formbuilder::EntryValidator do
       entry.save_response({ 'cents' => 'a' }, field)
       entry.should_not be_valid
       entry.save_response({ 'cents' => '0' }, field)
-      entry.should_not be_valid
+      entry.should be_valid
       entry.save_response({ 'cents' => '1a' }, field)
       entry.should_not be_valid
       entry.save_response({ 'cents' => '1' }, field)
       entry.should be_valid
       entry.save_response({ 'dollars' => '3a', 'cents' => '1' }, field)
+      entry.should_not be_valid
+      entry.save_response({ 'dollars' => '3', 'cents' => '100z' }, field)
       entry.should_not be_valid
     end
   end
