@@ -34,7 +34,22 @@ describe Formbuilder::Entry do
   subject { entry }
 
   describe 'callbacks' do
-    pending
+    describe 'normalize responses' do
+      it 'gets called before validation' do
+        entry.should_receive(:normalize_responses)
+        entry.valid?
+      end
+    end
+
+    describe 'calculate_responses_text' do
+      it 'gets called when responses change and entry is saved' do
+        entry.should_receive(:calculate_responses_text).exactly(:once)
+        entry.save_responses({}, [])
+        entry.save
+        entry.save_responses({ "#{first_response_field.id}" => 'boo' }, form.response_fields)
+        entry.save
+      end
+    end
   end
 
   describe '#value_present?' do
@@ -120,12 +135,18 @@ describe Formbuilder::Entry do
   end
 
   describe 'normalize responses' do
-    it 'should run when called explicitly' do
-      entry.normalize_responses!
-    end
+    it 'functions properly' do
+      first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldWebsite')
 
-    it 'should run before validation' do
-      entry.normalize_responses!
+      # does not need normalization
+      entry.responses[first_response_field.id.to_s] = 'http://www.google.com'
+      entry.normalize_responses
+      entry.responses[first_response_field.id.to_s].should == 'http://www.google.com'
+
+      # needs normalization
+      entry.responses[first_response_field.id.to_s] = 'www.google.com'
+      entry.normalize_responses
+      entry.responses[first_response_field.id.to_s].should == 'http://www.google.com'
     end
   end
 
