@@ -7,6 +7,7 @@ gemspec
 
 # Explicitly require gems
 gem 'carrierwave', require: 'carrierwave'
+gem 'database_cleaner', require: 'database_cleaner'
 gem 'geocoder', require: 'geocoder'
 
 # Declare any dependencies that are still in development here instead of in

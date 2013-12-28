@@ -234,6 +234,42 @@ describe Formbuilder::Entry do
       e2 = create_entry('aaaBBB')
       ensure_sort_order(e1, e2)
     end
+
+
+    describe 'scopes' do
+      before { entry.destroy }
+
+      describe 'scope :order_by_response_field_value' do
+        it 'functions for numeric fields' do
+          first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldPrice')
+          e1 = create_entry({ 'dollars' => '05', 'cents' => '02' })
+          e2 = create_entry({ 'dollars' => '09', 'cents' => '1' })
+          Entry.order_by_response_field_value(first_response_field, 'desc').should == [e2, e1]
+          Entry.order_by_response_field_value(first_response_field, 'asc').should == [e1, e2]
+        end
+
+        it 'functions for text fields' do
+          first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldText')
+          e1 = create_entry('aaaa')
+          e2 = create_entry('b')
+          Entry.order_by_response_field_value(first_response_field, 'desc').should == [e2, e1]
+          Entry.order_by_response_field_value(first_response_field, 'asc').should == [e1, e2]
+        end
+      end
+
+      describe 'scope :order_by_response_field_checkbox_value' do
+        it 'functions properly' do
+          first_response_field.update_attributes(type: 'Formbuilder::ResponseFieldCheckboxes',
+                                                 field_options: { 'options' => [{'checked' => 'false', 'label' => 'Choice #1'}] })
+
+          e1 = create_entry({ '0' => 'on' })
+          e2 = create_entry({})
+
+          Entry.order_by_response_field_checkbox_value(first_response_field, 'Choice #1', 'desc').should == [e1, e2]
+          Entry.order_by_response_field_checkbox_value(first_response_field, 'Choice #1', 'asc').should == [e2, e1]
+        end
+      end
+    end
   end
 
 end

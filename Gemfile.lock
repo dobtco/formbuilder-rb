@@ -57,6 +57,7 @@ GEM
       term-ansicolor
       thor
     daemons (1.1.9)
+    database_cleaner (1.2.0)
     diff-lcs (1.2.4)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -183,6 +184,7 @@ DEPENDENCIES
   capybara
   carrierwave
   coveralls
+  database_cleaner
   factory_girl_rails
   formbuilder-rb!
   geocoder

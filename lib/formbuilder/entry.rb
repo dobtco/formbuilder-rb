@@ -9,6 +9,22 @@ module Formbuilder
       before_validation :normalize_responses
       validates_with Formbuilder::EntryValidator
       before_save :calculate_responses_text, if: :responses_changed?
+
+      scope :order_by_response_field_value, -> (response_field, direction) {
+        if response_field.sort_as_numeric
+          order("(responses -> '#{response_field.id}_sortable_value') ::numeric #{direction} NULLS LAST")
+        else
+          order("LOWER(responses -> '#{response_field.id}_sortable_value') #{direction} NULLS LAST")
+        end
+      }
+
+      scope :order_by_response_field_checkbox_value, -> (response_field, option, direction) {
+        order("(CASE WHEN (responses -> '#{response_field.id}_sortable_values_#{option}') = 'true' THEN
+                  1
+                ELSE
+                  0
+                END) #{direction}".squish)
+      }
     end
 
     def value_present?(response_field)
