@@ -5,6 +5,7 @@ module Formbuilder
       @serialized = true
       @sort_as_numeric = true
       @field_type = 'price'
+      @search_type = 'number'
     }
 
     def render_input(value, opts = {})

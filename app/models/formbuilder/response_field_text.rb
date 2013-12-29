@@ -5,6 +5,7 @@ module Formbuilder
 
     after_initialize -> {
       @field_type = 'text'
+      @search_type = 'text'
     }
 
     def render_input(value, opts = {})

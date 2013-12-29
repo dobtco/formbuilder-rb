@@ -5,6 +5,7 @@ module Formbuilder
       @serialized = true
       @sort_as_numeric = true
       @field_type = 'date'
+      @search_type = 'date'
     }
 
     def render_input(value, opts = {})

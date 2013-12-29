@@ -3,6 +3,7 @@ module Formbuilder
 
     after_initialize -> {
       @field_type = 'file'
+      @search_type = 'file'
     }
 
     # @todo dropzone?

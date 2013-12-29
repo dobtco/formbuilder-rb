@@ -5,6 +5,7 @@ module Formbuilder
       @serialized = true
       @options_field = true
       @field_type = 'checkboxes'
+      @search_type = 'multiple_options'
     }
 
     def render_input(value, opts = {})

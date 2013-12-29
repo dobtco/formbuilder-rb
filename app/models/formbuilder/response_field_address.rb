@@ -4,6 +4,7 @@ module Formbuilder
     after_initialize -> {
       @serialized = true
       @field_type = 'address'
+      @search_type = 'address'
     }
 
     def render_input(value, opts = {})

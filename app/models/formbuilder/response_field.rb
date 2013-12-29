@@ -22,6 +22,9 @@ module Formbuilder
     # Underscored name of this field
     attr_accessor :field_type
 
+    # Search type for this field
+    attr_accessor :search_type
+
     after_initialize -> {
       @input_field = true
     }

@@ -4,6 +4,7 @@ module Formbuilder
     after_initialize -> {
       @input_field = false
       @field_type = 'section_break'
+      @search_type = 'section_break'
     }
 
     def render_input(value, opts = {})

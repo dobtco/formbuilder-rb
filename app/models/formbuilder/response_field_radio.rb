@@ -4,6 +4,7 @@ module Formbuilder
     after_initialize -> {
       @options_field = true
       @field_type = 'radio'
+      @search_type = 'one_option'
     }
 
     def render_input(value, opts = {})
