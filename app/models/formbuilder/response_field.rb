@@ -59,14 +59,6 @@ module Formbuilder
       return_hash.select { |k, v| v.present? }
     end
 
-    def render_entry_for_table(value, opts = {})
-      """
-        <td data-column-id='#{self.id}'>
-          #{render_entry(value, opts)}
-        </td>
-      """
-    end
-
     def render_input(value, opts = {})
       raise 'Not implemented'
     end
@@ -75,13 +67,14 @@ module Formbuilder
       value
     end
 
-    def audit_response(value, all_responses)
-    end
+    def audit_response(value, all_responses); end;
 
-    def normalize_response(value, all_responses)
-    end
+    def normalize_response(value, all_responses); end;
 
-    def validate_response(value)
+    def validate_response(value); end;
+
+    def options_array
+      Array(self.field_options['options']).map { |o| o['label'] }
     end
 
   end
