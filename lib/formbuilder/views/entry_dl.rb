@@ -42,7 +42,7 @@ module Formbuilder
       end
 
       def response_fields
-        return_array = @form.response_fields.reject { |rf| !rf.input_field }
+        return_array = @form.input_fields
         return_array.reject! { |rf| rf.blind? } unless @show_blind
         return_array
       end

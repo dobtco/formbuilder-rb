@@ -158,7 +158,7 @@ module Formbuilder
 
     # useful when migrating
     def calculate_sortable_values
-      response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
+      response_fieldable.input_fields.each do |response_field|
         calculate_sortable_value(response_field, response_value(response_field))
       end
 
@@ -166,7 +166,7 @@ module Formbuilder
     end
 
     def calculate_additional_info
-      response_fieldable.response_fields.reject { |rf| !rf.input_field }.each do |response_field|
+      response_fieldable.input_fields.each do |response_field|
         value = response_value(response_field)
         next unless value.present?
 
