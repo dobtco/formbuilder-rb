@@ -211,8 +211,8 @@ describe Formbuilder::Entry do
       e1 = create_entry({ '0' => 'on' })
       e2 = create_entry({})
 
-      e1.responses["#{first_response_field.id}_present"].should == true
-      e2.responses["#{first_response_field.id}_present"].should == false
+      e1.responses.key?("#{first_response_field.id}_present").should == true
+      e2.responses.key?("#{first_response_field.id}_present").should == false
     end
 
     it 'should sort prices properly' do

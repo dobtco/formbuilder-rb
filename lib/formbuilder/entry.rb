@@ -91,7 +91,11 @@ module Formbuilder
           values.delete('Other')
         end
 
-        responses["#{response_field.id}_present"] = value_present
+        if value_present
+          responses["#{response_field.id}_present"] = true
+        else
+          responses.delete("#{response_field.id}_present")
+        end
 
         values
 
