@@ -8,9 +8,6 @@ module Formbuilder
       # I guess it's valid if there's no form?
       return if record.form.blank?
 
-      # It's also valid if it's already been submitted
-      return if record.try(:submitted?)
-
       # we can also skip validation by setting this flag
       return if record.skip_validation
 
