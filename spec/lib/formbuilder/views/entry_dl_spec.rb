@@ -17,9 +17,10 @@ describe Formbuilder::Views::EntryDl do
     Formbuilder::Views::EntryDl.new(entry: entry, form: form).to_html.should_not match('Blind')
   end
 
-  it 'should display a label for admin only fields' do
+  it 'should optionally display a label for admin only fields' do
     form.response_fields.create TEXT_FIELD_PARAMS.merge(admin_only: true)
-    Formbuilder::Views::EntryDl.new(entry: entry, form: form).to_html.should match('Admin only')
+    Formbuilder::Views::EntryDl.new(entry: entry, form: form).to_html.should_not match('Admin only')
+    Formbuilder::Views::EntryDl.new(entry: entry, form: form, show_admin_only: true).to_html.should match('Admin only')
   end
 
   it 'should display placeholder text if there is no response' do

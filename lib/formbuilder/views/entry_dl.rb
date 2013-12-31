@@ -2,7 +2,10 @@ module Formbuilder
   module Views
     class EntryDl < Erector::Widget
 
-      needs :entry, :form, show_blind: false
+      needs :entry,
+            :form,
+            show_blind: false,
+            show_admin_only: false
 
       def content
         dl(class: 'entry-dl') {
@@ -44,6 +47,7 @@ module Formbuilder
       def response_fields
         return_array = @form.input_fields
         return_array.reject! { |rf| rf.blind? } unless @show_blind
+        return_array.reject! { |rf| rf.admin_only? } unless @show_admin_only
         return_array
       end
 
