@@ -20,7 +20,11 @@ module Formbuilder
       def render_label
         label(for: "response_fields_#{@response_field.id}") {
           text @response_field[:label]
-          abbr('*', title: 'required') if @response_field.required?
+
+          if @response_field.required?
+            text ' '
+            abbr('*', title: 'required')
+          end
         }
       end
 
