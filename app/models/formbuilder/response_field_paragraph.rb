@@ -20,7 +20,7 @@ module Formbuilder
     end
 
     def render_entry(value, opts = {})
-      ActionController::Base.helpers.simple_format(value)
+      ActionController::Base.helpers.simple_format(Rinku.auto_link(value))
     end
 
   end

@@ -7,6 +7,7 @@ PATH
       geocoder
       pg
       rails (>= 4.0.0)
+      rinku
       rmagick
 
 GEM
@@ -132,6 +133,7 @@ GEM
       ffi (>= 0.5.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rinku (1.7.3)
     rmagick (2.13.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -195,6 +197,7 @@ DEPENDENCIES
   geocoder
   guard-rspec
   launchy
+  rinku
   rspec-rails
   terminal-notifier-guard
   thin
