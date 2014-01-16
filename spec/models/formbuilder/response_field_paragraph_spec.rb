@@ -12,6 +12,11 @@ describe Formbuilder::ResponseFieldParagraph do
     it 'autolinks properly' do
       expect(response_field.render_entry(INPUT)).to eq EXPECTED_OUTPUT
     end
+
+    it 'doesnt choke on nil value' do
+      expect(response_field.render_entry(nil)).to eq ''
+      expect(response_field.render_entry('')).to eq ''
+    end
   end
 
 end

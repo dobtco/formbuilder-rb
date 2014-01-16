@@ -20,7 +20,11 @@ module Formbuilder
     end
 
     def render_entry(value, opts = {})
-      ActionController::Base.helpers.simple_format(Rinku.auto_link(value))
+      if value.present?
+        ActionController::Base.helpers.simple_format(Rinku.auto_link(value))
+      else
+        ''
+      end
     end
 
   end
