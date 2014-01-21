@@ -28,24 +28,24 @@ module Formbuilder
     def render_entry(value, opts = {})
       return_str = ""
 
-      get_attachments(value).each do |attachment|
-        return_str += "".tap do |str|
-          str += """
+      return_str << get_attachments(value).map do |attachment|
+        String.new.tap do |str|
+          str << """
             <a href='#{attachment.upload.url}' target='_blank'>
           """
 
           if attachment.upload.send(:active_versions).include?(:thumb)
-            str += """
+            str << """
               <img src='#{attachment.upload.thumb.url}' /><br />
             """
           end
 
-          str +="""
+          str << """
               #{attachment.upload.try(:file).try(:filename).try(:gsub, /\?.*$/, '')}
             </a>
           """
         end
-      end
+      end.join('<br /><br />').squish
 
       return_str
     end

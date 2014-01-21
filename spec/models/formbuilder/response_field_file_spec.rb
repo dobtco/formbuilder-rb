@@ -50,4 +50,14 @@ describe Formbuilder::ResponseFieldFile do
     end
   end
 
+  describe '#render_entry' do
+    before do
+      entry.save_response([file_value], rf)
+    end
+
+    it 'renders properly' do
+      rf.render_entry(entry.responses[rf.id.to_s]).should match 'text2.txt'
+    end
+  end
+
 end
