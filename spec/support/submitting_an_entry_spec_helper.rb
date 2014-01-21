@@ -39,7 +39,7 @@ module SubmittingAnEntrySpecHelper
       select(value[:am_pm], from: "#{field_name(field_type)}[am_pm]")
     when :file
       page.execute_script %Q{ $('input[type=file]').insertAfter('.fileupload') } rescue nil
-      page.attach_file field_name(field_type), File.expand_path(value, File.dirname(__FILE__))
+      page.attach_file "#{field_name(field_type)}[]", File.expand_path(value, File.dirname(__FILE__))
     when :address
       fill_in "#{field_name(field_type)}[street]", with: value[:street]
       fill_in "#{field_name(field_type)}[city]", with: value[:city]
@@ -69,6 +69,12 @@ module SubmittingAnEntrySpecHelper
     }
   end
 
+  def normalized_test_field_values
+    test_field_values.merge(
+      website: 'http://www.google.com'
+    )
+  end
+
   def test_field_values_two
     {
       text: 'shlooop',
@@ -85,6 +91,12 @@ module SubmittingAnEntrySpecHelper
       file: '../fixtures/test_files/text2.txt',
       address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' }
     }
+  end
+
+  def normalized_test_field_values_two
+    test_field_values_two.merge(
+      website: 'http://www.gizoogle.com'
+    )
   end
 
   def ensure_field(field_type, value)

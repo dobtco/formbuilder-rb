@@ -65,5 +65,34 @@ module Formbuilder
       """
     end
 
+    def sortable_value(value)
+      nil # see :normalize_response for override
+    end
+
+    def normalize_response(value, all_responses)
+      options_array.each do |option_label|
+        all_responses["#{self.id}_sortable_values_#{option_label}"] = value[option_label]
+      end
+    end
+
+    def transform_raw_value(raw_value, entry, opts = {})
+      {}.tap do |h|
+        options_array.each_with_index do |label, index|
+          h[label] = raw_value[index.to_s] == "on"
+        end
+
+        if raw_value['other_checkbox'] == 'on'
+          entry.responses["#{self.id}_other"] = true
+          h['Other'] = raw_value['other']
+        end
+
+        if h.find { |_, v| v }.present?
+          entry.responses["#{self.id}_present"] = true
+        else
+          entry.responses.delete("#{self.id}_present")
+        end
+      end
+    end
+
   end
 end

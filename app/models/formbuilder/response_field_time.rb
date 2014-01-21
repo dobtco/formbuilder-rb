@@ -50,5 +50,11 @@ module Formbuilder
       end
     end
 
+    def sortable_value(value)
+      hours = value['hours'].to_i
+      hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'
+      (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
+    end
+
   end
 end

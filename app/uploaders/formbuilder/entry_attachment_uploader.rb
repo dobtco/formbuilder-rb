@@ -18,6 +18,10 @@ module Formbuilder
       "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     end
 
+    def raw_filename
+      @model.read_attribute(:upload)
+    end
+
     protected
     def image?(file)
       content_type = file.content_type || model.try(:content_type)

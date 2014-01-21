@@ -5,7 +5,7 @@ describe 'Submitting an entry' do
 
   subject { page }
   let!(:form) { FactoryGirl.create(:kitchen_sink_form) }
-  let!(:entry) { e = Entry.new(form: form); e.save(validate: false); e }
+  let!(:entry) { e = Entry.new(form: form); e.save(skip_validation: true); e }
 
   before do
     visit test_form_path(form.id, entry.id)
@@ -24,7 +24,7 @@ describe 'Submitting an entry' do
 
     save_draft_and_refresh
 
-    test_field_values.each do |k, v|
+    normalized_test_field_values.each do |k, v|
       ensure_field(k, v)
     end
 
@@ -35,7 +35,7 @@ describe 'Submitting an entry' do
 
     save_draft_and_refresh
 
-    test_field_values_two.each do |k, v|
+    normalized_test_field_values_two.each do |k, v|
       ensure_field(k, v)
     end
   end
