@@ -43,5 +43,9 @@ module Formbuilder
       end
     end
 
+    def sortable_value(value)
+      value[0..20]
+    end
+
   end
 end
