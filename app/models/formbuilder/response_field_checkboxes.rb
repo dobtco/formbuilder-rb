@@ -75,5 +75,24 @@ module Formbuilder
       end
     end
 
+    def transform_raw_value(raw_value, entry, opts = {})
+      {}.tap do |h|
+        options_array.each_with_index do |label, index|
+          h[label] = raw_value[index.to_s] == "on"
+        end
+
+        if raw_value['other_checkbox'] == 'on'
+          entry.responses["#{self.id}_other"] = true
+          h['Other'] = raw_value['other']
+        end
+
+        if h.present?
+          entry.responses["#{self.id}_present"] = true
+        else
+          entry.responses.delete("#{self.id}_present")
+        end
+      end
+    end
+
   end
 end

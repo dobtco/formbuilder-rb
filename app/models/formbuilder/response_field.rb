@@ -76,7 +76,11 @@ module Formbuilder
 
     def validate_response(value); end;
 
-    def before_destroy(entry); end;
+    def before_response_destroyed(entry); end;
+
+    def transform_raw_value(raw_value, entry, opts = {})
+      raw_value
+    end
 
     def options_array
       Array(self.field_options['options']).map { |o| o['label'] }

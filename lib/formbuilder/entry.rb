@@ -45,7 +45,7 @@ module Formbuilder
     end
 
     def response_value(response_field)
-      value = responses && responses[response_field.id.to_s]
+      value = responses[response_field.id.to_s]
 
       if value
         response_field.serialized ? YAML::load(value) : value
@@ -60,96 +60,27 @@ module Formbuilder
       self.old_responses = self.responses.try(:clone) || {}
       self.responses = {}
 
-      response_fields.reject { |rf| !rf.input_field }.each do |response_field|
-        self.save_response(response_field_params.try(:[], response_field.id.to_s), response_field, response_field_params)
+      response_fields.select { |rf| rf.input_field }.each do |response_field|
+        self.save_response(response_field_params[response_field.id.to_s], response_field, response_field_params)
       end
     end
 
     def save_response(raw_value, response_field, response_field_params = {})
-      value = case response_field.field_type
-      when "checkboxes"
-        # transform checkboxes into {label => on/off} pairs
-        values = {}
-        value_present = false
-
-        (response_field[:field_options]["options"] || []).each_with_index do |option, index|
-          label = response_field.field_options["options"][index]["label"]
-
-          if raw_value && raw_value[index.to_s] == "on"
-            value_present = true
-            values[option["label"]] = true
-          else
-            values[option["label"]] = false
-          end
-        end
-
-        if raw_value && raw_value['other_checkbox'] == 'on'
-          responses["#{response_field.id}_other"] = true
-          values['Other'] = raw_value['other']
-          value_present = true
-        else
-          values.delete('Other')
-        end
-
-        if value_present
-          responses["#{response_field.id}_present"] = true
-        else
-          responses.delete("#{response_field.id}_present")
-        end
-
-        values
-
-      when "file"
-        # if the file is already uploaded and we're not uploading another, be sure to keep it
-        if raw_value.blank?
-          old_responses.try(:[], response_field.id.to_s)
-        else
-          remove_entry_attachments(responses.try(:[], response_field.id.to_s))
-          EntryAttachment.create(upload: raw_value).id
-        end
-      # when "filebucket"
-      #   # if the file is already uploaded and we're not uploading another, be sure to keep it
-      #   if raw_value.blank?
-      #     old_responses.try(:[], response_field.id.to_s)
-      #   else
-      #     remove_entry_attachments(Array(responses.try(:[], response_field.id.to_s)))
-      #     EntryAttachment.create(upload: raw_value).id
-      #   end
-
-      when "radio"
-        # Save 'other' value
-        responses["#{response_field.id}_other"] = raw_value == 'Other' ?
-                                                    response_field_params["#{response_field.id}_other"] :
-                                                    nil
-
-        raw_value
-      else
-        raw_value
-      end
-
-      self.responses ||= {}
+      value = response_field.transform_raw_value(raw_value, self, response_field_params: response_field_params)
 
       if value.present?
         self.responses["#{response_field.id}"] = response_field.serialized ? value.to_yaml : value
-        calculate_sortable_value(response_field, value)
+        self.responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(value)
       end
 
       self.responses_will_change!
     end
 
     def destroy_response(response_field)
-      response_field.before_destroy(self)
+      response_field.before_response_destroyed(self)
       id = response_field.id.to_s
       self.responses = self.responses.reject { |k, v| k.in?([id, "#{id}_sortable_value"]) }
       self.responses_will_change!
-    end
-
-    def remove_entry_attachments(entry_attachment_ids)
-      return unless entry_attachment_ids.present?
-
-      entry_attachment_ids.to_s.split(',').each do |x|
-        EntryAttachment.find_by(id: x).try(:destroy)
-      end
     end
 
     def error_for(response_field)
@@ -161,7 +92,7 @@ module Formbuilder
       self.responses_text = self.responses.select { |k, v| Integer(k) rescue nil }.values.join(' ')
     end
 
-    # useful when migrating
+    # for manual use, maybe when migrating
     def calculate_sortable_values
       response_fieldable.input_fields.each do |response_field|
         if (x = response_value(response_field)).present?
@@ -177,7 +108,9 @@ module Formbuilder
       return if form.blank?
 
       form.response_fields.each do |response_field|
-        response_field.normalize_response(self.response_value(response_field), self.responses)
+        if (x = self.response_value(response_field))
+          response_field.normalize_response(x, self.responses)
+        end
       end
 
       self.responses_will_change!

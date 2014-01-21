@@ -49,5 +49,13 @@ module Formbuilder
       str
     end
 
+    def transform_raw_value(raw_value, entry, opts = {})
+      entry.responses["#{self.id}_other"] = (raw_value == 'Other') ?
+                                            opts[:response_field_params]["#{response_field.id}_other"] :
+                                            nil
+
+      raw_value
+    end
+
   end
 end

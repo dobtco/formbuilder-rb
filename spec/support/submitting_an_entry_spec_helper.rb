@@ -69,6 +69,12 @@ module SubmittingAnEntrySpecHelper
     }
   end
 
+  def normalized_test_field_values
+    test_field_values.merge(
+      website: 'http://www.google.com'
+    )
+  end
+
   def test_field_values_two
     {
       text: 'shlooop',
@@ -85,6 +91,12 @@ module SubmittingAnEntrySpecHelper
       file: '../fixtures/test_files/text2.txt',
       address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' }
     }
+  end
+
+  def normalized_test_field_values_two
+    test_field_values_two.merge(
+      website: 'http://www.gizoogle.com'
+    )
   end
 
   def ensure_field(field_type, value)
