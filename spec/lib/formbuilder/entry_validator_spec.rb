@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Formbuilder::EntryValidator do
 
   let!(:form) { FactoryGirl.create(:form) }
-  let!(:entry) { e = Entry.new(form: form); e.save(validate: false); e }
+  let!(:entry) { e = Entry.new(form: form); e.save(skip_validation: true); e }
 
   describe '#validate' do
     before do

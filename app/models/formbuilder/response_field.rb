@@ -76,8 +76,14 @@ module Formbuilder
 
     def validate_response(value); end;
 
+    def before_destroy(entry); end;
+
     def options_array
       Array(self.field_options['options']).map { |o| o['label'] }
+    end
+
+    def sortable_value(value)
+      value[0..10] # do we really need to sort more than the first 10 characters of a string?
     end
 
   end

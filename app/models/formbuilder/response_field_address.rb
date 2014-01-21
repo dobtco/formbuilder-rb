@@ -67,6 +67,10 @@ module Formbuilder
       end
     end
 
+    def sortable_value(value)
+      "#{value['street']} #{value['city']} #{value['state']} #{value['zipcode']} #{value['country']}"
+    end
+
     private
     def country_options(selected_country)
       all_countries.map do |k, v|

@@ -100,17 +100,22 @@ module Formbuilder
         values
 
       when "file"
-        # if the file is already uploaded and we're not uploading another,
-        # be sure to keep it
+        # if the file is already uploaded and we're not uploading another, be sure to keep it
         if raw_value.blank?
-          if old_responses && old_responses[response_field.id.to_s]
-            old_responses[response_field.id.to_s]
-          end
+          old_responses.try(:[], response_field.id.to_s)
         else
-          remove_entry_attachment(responses[response_field.id.to_s]) if responses
-          attachment = EntryAttachment.create(upload: raw_value)
-          attachment.id
+          remove_entry_attachments(responses.try(:[], response_field.id.to_s))
+          EntryAttachment.create(upload: raw_value).id
         end
+      # when "filebucket"
+      #   # if the file is already uploaded and we're not uploading another, be sure to keep it
+      #   if raw_value.blank?
+      #     old_responses.try(:[], response_field.id.to_s)
+      #   else
+      #     remove_entry_attachments(Array(responses.try(:[], response_field.id.to_s)))
+      #     EntryAttachment.create(upload: raw_value).id
+      #   end
+
       when "radio"
         # Save 'other' value
         responses["#{response_field.id}_other"] = raw_value == 'Other' ?
@@ -129,64 +134,42 @@ module Formbuilder
         calculate_sortable_value(response_field, value)
       end
 
-      self.responses_will_change! # hack to make sure column is marked as dirty
+      self.responses_will_change!
     end
 
     def destroy_response(response_field)
-      case response_field.field_type
-      when "file"
-        self.remove_entry_attachment(responses[response_field.id.to_s])
-      end
-
+      response_field.before_destroy(self)
       id = response_field.id.to_s
-      new_responses = self.responses.reject { |k, v| k.in?([id, "#{id}_sortable_value"]) }
-      self.responses = new_responses
-
-      self.responses_will_change! # hack to make sure column is marked as dirty
+      self.responses = self.responses.reject { |k, v| k.in?([id, "#{id}_sortable_value"]) }
+      self.responses_will_change!
     end
 
-    def remove_entry_attachment(entry_attachment_id)
-      return unless entry_attachment_id.present?
-      EntryAttachment.where(id: entry_attachment_id).first.try(:destroy)
+    def remove_entry_attachments(entry_attachment_ids)
+      return unless entry_attachment_ids.present?
+
+      entry_attachment_ids.to_s.split(',').each do |x|
+        EntryAttachment.find_by(id: x).try(:destroy)
+      end
     end
 
     def error_for(response_field)
-      (self.errors.messages[:"responses_#{response_field.id}"] || [])[0]
+      Array(self.errors.messages[:"responses_#{response_field.id}"]).first
     end
 
     def calculate_responses_text
       return unless self.respond_to?(:"responses_text=")
-      selected_responses = self.responses.select { |k, v| Integer(k) rescue nil }
-      self.responses_text = selected_responses.values.join(' ')
+      self.responses_text = self.responses.select { |k, v| Integer(k) rescue nil }.values.join(' ')
     end
 
     # useful when migrating
     def calculate_sortable_values
       response_fieldable.input_fields.each do |response_field|
-        calculate_sortable_value(response_field, response_value(response_field))
-      end
-
-      self.responses_will_change! # hack to make sure column is marked as dirty
-    end
-
-    def calculate_additional_info
-      response_fieldable.input_fields.each do |response_field|
-        value = response_value(response_field)
-        next unless value.present?
-
-        case response_field.field_type
-        when 'address'
-          begin
-            coords = Geocoder.coordinates("#{value['street']} #{value['city']} #{value['state']} " +
-                                          "#{value['zipcode']} #{value['country']}")
-            self.responses["#{response_field.id}_x"] = coords[0]
-            self.responses["#{response_field.id}_y"] = coords[1]
-          rescue
-            self.responses["#{response_field.id}_x"] = nil
-            self.responses["#{response_field.id}_y"] = nil
-          end
+        if (x = response_value(response_field)).present?
+          self.responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(x)
         end
       end
+
+      self.responses_will_change!
     end
 
     # Normalizations get run before validation.
@@ -207,48 +190,6 @@ module Formbuilder
       end
 
       self.responses_will_change!
-    end
-
-    def audit_responses!
-      audit_responses
-      self.save(validate: false)
-    end
-
-    def normalize_responses!
-      normalize_responses
-      self.save(validate: false)
-    end
-
-    def calculate_sortable_value(response_field, value)
-      return unless value.present?
-
-      self.responses["#{response_field.id}_sortable_value"] = case response_field.field_type
-      when "date"
-        ['year', 'month', 'day'].each { |x| return 0 unless value[x] && !value[x].blank? }
-        DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i rescue 0
-      when "time"
-        hours = value['hours'].to_i
-        hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'
-        (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
-      when "file"
-        value ? 1 : 0
-      when "checkboxes"
-        calculate_sortable_value_for_checkboxes(response_field, value)
-        return nil
-      when "price"
-        "#{value['dollars'] || '0'}.#{value['cents'] || '0'}".to_f
-      when "address"
-        "#{value['street']} #{value['city']} #{value['state']} #{value['zipcode']} #{value['country']}"
-      else
-        # do we really need to sort more than the first 10 characters of a string?
-        value[0..10]
-      end
-    end
-
-    def calculate_sortable_value_for_checkboxes(response_field, value)
-      (response_field.field_options['options'] || []).each do |option|
-        self.responses["#{response_field.id}_sortable_values_#{option['label']}"] = value[option['label']]
-      end
     end
 
   end

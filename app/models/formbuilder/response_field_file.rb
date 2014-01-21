@@ -46,5 +46,13 @@ module Formbuilder
       all_responses["#{self.id}_filename"] = record.read_attribute(:upload)
     end
 
+    def sortable_value(value)
+      value ? 1 : 0
+    end
+
+    def before_destroy(entry)
+      entry.remove_entry_attachments(entry.responses[self.id.to_s])
+    end
+
   end
 end

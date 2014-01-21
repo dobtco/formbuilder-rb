@@ -7,7 +7,7 @@ class TestController < ApplicationController
 
   def post_form
     @entry.save_responses(params[:response_fields], @form.response_fields.not_admin_only)
-    @entry.save(validate: false)
+    @entry.save(skip_validation: true)
     redirect_to :back
   end
 

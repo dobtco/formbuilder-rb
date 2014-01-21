@@ -43,5 +43,10 @@ module Formbuilder
       end
     end
 
+    def sortable_value(value)
+      ['year', 'month', 'day'].each { |x| return 0 unless value[x].try(:present?) }
+      DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i rescue 0
+    end
+
   end
 end

@@ -43,5 +43,9 @@ module Formbuilder
       end
     end
 
+    def sortable_value(value)
+      "#{value['dollars'] || '0'}.#{value['cents'] || '0'}".to_f
+    end
+
   end
 end

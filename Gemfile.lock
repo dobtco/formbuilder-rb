@@ -155,6 +155,9 @@ GEM
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
     slop (3.4.6)
+    spring (1.1.0)
+    spring-commands-rspec (1.0.1)
+      spring (>= 0.9.1)
     sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -199,5 +202,7 @@ DEPENDENCIES
   launchy
   rinku
   rspec-rails
+  spring
+  spring-commands-rspec
   terminal-notifier-guard
   thin

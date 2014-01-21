@@ -65,5 +65,15 @@ module Formbuilder
       """
     end
 
+    def sortable_value(value)
+      nil # see :normalize_response for override
+    end
+
+    def normalize_response(value, all_responses)
+      options_array.each do |option_label|
+        all_responses["#{self.id}_sortable_values_#{option_label}"] = value[option_label]
+      end
+    end
+
   end
 end
