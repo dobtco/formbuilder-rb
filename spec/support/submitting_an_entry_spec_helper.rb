@@ -39,7 +39,7 @@ module SubmittingAnEntrySpecHelper
       select(value[:am_pm], from: "#{field_name(field_type)}[am_pm]")
     when :file
       page.execute_script %Q{ $('input[type=file]').insertAfter('.fileupload') } rescue nil
-      page.attach_file field_name(field_type), File.expand_path(value, File.dirname(__FILE__))
+      page.attach_file "#{field_name(field_type)}[]", File.expand_path(value, File.dirname(__FILE__))
     when :address
       fill_in "#{field_name(field_type)}[street]", with: value[:street]
       fill_in "#{field_name(field_type)}[city]", with: value[:city]

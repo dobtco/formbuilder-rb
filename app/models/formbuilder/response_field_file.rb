@@ -1,52 +1,62 @@
 module Formbuilder
   class ResponseFieldFile < ResponseField
 
+    # Notes:
+    #   I'm modifying this class to accept multiple attachments,
+    #   even though the frontend will only accept one (for now).
+
     after_initialize -> {
       @field_type = 'file'
       @search_type = 'file'
     }
 
-    def render_input(value, opts = {})
-      attachment = value && EntryAttachment.find(value)
+    def get_attachments(value)
+      if value.blank?
+        []
+      else
+        EntryAttachment.where('id IN (?)', value.split(','))
+      end
+    end
 
+    def render_input(value, opts = {})
       """
-        <span class='existing-filename'>#{attachment.try(:upload).try(:file).try(:filename).try(:gsub, /\?.*$/, '')}</span>
-        <input type='file' name='response_fields[#{self[:id]}]' id='response_fields_#{self[:id]}' />
+        <span class='existing-filename'>#{get_attachments(value).first.try(:upload).try(:raw_filename)}</span>
+        <input type='file' name='response_fields[#{self[:id]}][]' id='response_fields_#{self[:id]}' />
       """
     end
 
     def render_entry(value, opts = {})
-      attachment = value && EntryAttachment.where(id: value).first
+      return_str = ""
 
-      return unless attachment
+      get_attachments(value).each do |attachment|
+        return_str += "".tap do |str|
+          str += """
+            <a href='#{attachment.upload.url}' target='_blank'>
+          """
 
-      str = ""
+          if attachment.upload.send(:active_versions).include?(:thumb)
+            str += """
+              <img src='#{attachment.upload.thumb.url}' /><br />
+            """
+          end
 
-      str += """
-        <a href='#{attachment.upload.url}' target='_blank'>
-      """
-
-      if attachment.upload.send(:active_versions).include?(:thumb)
-        str += """
-          <img src='#{attachment.upload.thumb.url}' /><br />
-        """
+          str +="""
+              #{attachment.upload.try(:file).try(:filename).try(:gsub, /\?.*$/, '')}
+            </a>
+          """
+        end
       end
 
-      str +="""
-          #{attachment.upload.try(:file).try(:filename).try(:gsub, /\?.*$/, '')}
-        </a>
-      """
-
-      str
+      return_str
     end
 
     def audit_response(value, all_responses)
-      return unless value && (record = Formbuilder::EntryAttachment.find(value))
-      all_responses["#{self.id}_filename"] = record.read_attribute(:upload)
+      return unless value
+      all_responses["#{self.id}_filename"] = get_attachments(value).try(:first).try(:upload).try(:raw_filename)
     end
 
     def sortable_value(value)
-      value ? 1 : 0
+      value.present? ? 1 : 0
     end
 
     def before_response_destroyed(entry)
@@ -59,8 +69,12 @@ module Formbuilder
       if raw_value.blank?
         entry.old_responses.try(:[], self.id.to_s)
       else
-        remove_entry_attachments(entry.old_responses[self.id.to_s]) # remove old attachments
-        EntryAttachment.create(upload: raw_value).id
+        remove_entry_attachments(entry.responses.try(:[], self.id.to_s)) # remove old attachments
+        remove_entry_attachments(entry.old_responses.try(:[], self.id.to_s)) # remove old attachments
+
+        raw_value.map do |file|
+          EntryAttachment.create(upload: file).id
+        end.join(',')
       end
     end
 
