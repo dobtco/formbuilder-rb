@@ -86,7 +86,7 @@ module Formbuilder
           h['Other'] = raw_value['other']
         end
 
-        if h.present?
+        if h.find { |_, v| v }.present?
           entry.responses["#{self.id}_present"] = true
         else
           entry.responses.delete("#{self.id}_present")

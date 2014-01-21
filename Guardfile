@@ -2,7 +2,8 @@
 # More info at https://github.com/guard/guard#readme
 
 group :all_specs do
-  guard :rspec do
+  guard :rspec, all_on_start: false, all_after_pass: false,
+        cmd: 'spring rspec' do
 
     watch('spec/spec_helper.rb')                        { "spec" }
 
