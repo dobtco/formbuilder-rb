@@ -76,6 +76,8 @@ module Formbuilder
     end
 
     def transform_raw_value(raw_value, entry, opts = {})
+      raw_value ||= {}
+
       {}.tap do |h|
         options_array.each_with_index do |label, index|
           h[label] = raw_value[index.to_s] == "on"
