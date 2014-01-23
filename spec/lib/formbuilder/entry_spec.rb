@@ -14,10 +14,6 @@ def ensure_sort_order(*args)
   end
 end
 
-def file_value
-  File.open(File.expand_path('../../fixtures/test_files/text2.txt', File.dirname(__FILE__)))
-end
-
 def change_field_type(new_field_type, additional_params = {})
   first_field.update_attributes({ type: new_field_type }.merge(additional_params))
   first_field.becomes!(new_field_type.constantize)
@@ -28,6 +24,7 @@ describe Formbuilder::Entry do
   let!(:form) { FactoryGirl.create(:form_with_one_field) }
   let!(:entry) { e = Entry.new(form: form, skip_validation: true); e.save; e }
   let(:first_field) { form.response_fields.first }
+  let(:file_value) { File.open(File.expand_path('../../fixtures/test_files/text2.txt', File.dirname(__FILE__))) }
 
   subject { entry }
 

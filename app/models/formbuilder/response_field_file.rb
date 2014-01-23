@@ -64,9 +64,12 @@ module Formbuilder
     end
 
     def transform_raw_value(raw_value, entry, opts = {})
+      raw_value = [raw_value] unless raw_value.is_a?(Array)
+      raw_value = raw_value.reject { |x| x.blank? }
+
       # if the file is already uploaded and we're not uploading another, be sure to keep it
       # @todo currently no way of removing a file
-      if raw_value.blank?
+      if raw_value.empty?
         entry.old_responses.try(:[], self.id.to_s)
       else
         remove_entry_attachments(entry.responses.try(:[], self.id.to_s)) # remove old attachments

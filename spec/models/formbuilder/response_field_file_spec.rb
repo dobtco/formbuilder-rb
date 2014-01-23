@@ -48,6 +48,12 @@ describe Formbuilder::ResponseFieldFile do
 
       rf.get_attachments(entry.responses[rf.id.to_s]).length.should == 2
     end
+
+    it 'does not choke on nil values' do
+      expect {
+        entry.save_response([nil], rf)
+      }.to_not change { Formbuilder::EntryAttachment.count }
+    end
   end
 
   describe '#render_entry' do
