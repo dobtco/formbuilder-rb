@@ -70,10 +70,10 @@ module Formbuilder
       # if the file is already uploaded and we're not uploading another, be sure to keep it
       # @todo currently no way of removing a file
       if raw_value.empty?
-        entry.old_responses.try(:[], self.id.to_s)
+        entry.responses_was.try(:[], self.id.to_s)
       else
         remove_entry_attachments(entry.responses.try(:[], self.id.to_s)) # remove old attachments
-        remove_entry_attachments(entry.old_responses.try(:[], self.id.to_s)) # remove old attachments
+        remove_entry_attachments(entry.responses_was.try(:[], self.id.to_s)) # remove old attachments
 
         raw_value.map do |file|
           EntryAttachment.create(upload: file).id

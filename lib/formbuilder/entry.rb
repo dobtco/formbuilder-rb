@@ -3,7 +3,6 @@ module Formbuilder
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :old_responses
       attr_accessor :skip_validation
 
       before_validation :normalize_responses
@@ -57,7 +56,6 @@ module Formbuilder
     end
 
     def save_responses(response_field_params, response_fields)
-      self.old_responses = self.responses.try(:clone) || {}
       self.responses = {}
 
       response_fields.select { |rf| rf.input_field }.each do |response_field|
