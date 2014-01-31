@@ -115,7 +115,7 @@ module Formbuilder
 
     def calculate_responses_text
       return unless self.respond_to?(:"#{responses_column}_text=")
-      self.send(:"#{responses_column}_text=", self.responses.select { |k, v| Integer(k) rescue nil }.values.join(' '))
+      self.send(:"#{responses_column}_text=", get_responses.select { |k, v| Integer(k) rescue nil }.values.join(' '))
     end
 
     # for manual use, maybe when migrating
