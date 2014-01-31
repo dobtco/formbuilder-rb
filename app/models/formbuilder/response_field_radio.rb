@@ -31,7 +31,7 @@ module Formbuilder
             </label>
 
             <input type='text' name='response_fields[#{self[:id]}_other]'
-                               value='#{opts.try(:[], :entry).try(:responses).try(:[], "#{self[:id]}_other")}' />
+                               value='#{opts.try(:[], :entry).try(:get_responses).try(:[], "#{self[:id]}_other")}' />
           </div>
         """
       end
@@ -42,7 +42,7 @@ module Formbuilder
     def render_entry(value, opts = {})
       str = value
 
-      if (other = opts.try(:[], :entry).try(:responses).try(:[], "#{self.id}_other"))
+      if (other = opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_other"))
         str += " (#{other})"
       end
 
@@ -50,9 +50,9 @@ module Formbuilder
     end
 
     def transform_raw_value(raw_value, entry, opts = {})
-      entry.responses["#{self.id}_other"] = (raw_value == 'Other') ?
-                                            opts[:response_field_params]["#{self.id}_other"] :
-                                            nil
+      entry.get_responses["#{self.id}_other"] = (raw_value == 'Other') ?
+                                                  opts[:response_field_params]["#{self.id}_other"] :
+                                                  nil
 
       raw_value
     end

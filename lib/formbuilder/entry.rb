@@ -7,7 +7,7 @@ module Formbuilder
 
       before_validation :normalize_responses
       validates_with Formbuilder::EntryValidator
-      before_save :calculate_responses_text, if: :responses_changed?
+      before_save :calculate_responses_text, if: :responses_column_changed?
 
       scope :order_by_response_field_value, -> (response_field, direction) {
         if response_field.sort_as_numeric
@@ -24,6 +24,34 @@ module Formbuilder
                   0
                 END) #{direction}".squish)
       }
+    end
+
+    def responses_column
+      @responses_column || 'responses'
+    end
+
+    def responses_column=(x)
+      @responses_column = x
+    end
+
+    def get_responses
+      send(responses_column)
+    end
+
+    def set_responses(x)
+      send("#{responses_column}=", x)
+    end
+
+    def mark_responses_as_changed!
+      send("#{responses_column}_will_change!")
+    end
+
+    def responses_column_changed?
+      send("#{responses_column}_changed?")
+    end
+
+    def responses_column_was
+      send("#{responses_column}_was")
     end
 
     def value_present?(response_field)
@@ -44,7 +72,7 @@ module Formbuilder
     end
 
     def response_value(response_field)
-      value = responses[response_field.id.to_s]
+      value = get_responses[response_field.id.to_s]
 
       if value
         response_field.serialized ? YAML::load(value) : value
@@ -56,7 +84,7 @@ module Formbuilder
     end
 
     def save_responses(response_field_params, response_fields)
-      self.responses = {}
+      set_responses({})
 
       response_fields.select { |rf| rf.input_field }.each do |response_field|
         self.save_response(response_field_params[response_field.id.to_s], response_field, response_field_params)
@@ -67,38 +95,38 @@ module Formbuilder
       value = response_field.transform_raw_value(raw_value, self, response_field_params: response_field_params)
 
       if value.present?
-        self.responses["#{response_field.id}"] = response_field.serialized ? value.to_yaml : value
-        self.responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(value)
+        get_responses["#{response_field.id}"] = response_field.serialized ? value.to_yaml : value
+        get_responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(value)
       end
 
-      self.responses_will_change!
+      mark_responses_as_changed!
     end
 
     def destroy_response(response_field)
       response_field.before_response_destroyed(self)
       id = response_field.id.to_s
-      self.responses = self.responses.reject { |k, v| k.in?([id, "#{id}_sortable_value"]) }
-      self.responses_will_change!
+      set_responses get_responses.reject { |k, v| k.in?([id, "#{id}_sortable_value"]) }
+      mark_responses_as_changed!
     end
 
     def error_for(response_field)
-      Array(self.errors.messages[:"responses_#{response_field.id}"]).first
+      Array(self.errors.messages[:"#{responses_column}_#{response_field.id}"]).first
     end
 
     def calculate_responses_text
-      return unless self.respond_to?(:"responses_text=")
-      self.responses_text = self.responses.select { |k, v| Integer(k) rescue nil }.values.join(' ')
+      return unless self.respond_to?(:"#{responses_column}_text=")
+      self.send(:"#{responses_column}_text=", self.responses.select { |k, v| Integer(k) rescue nil }.values.join(' '))
     end
 
     # for manual use, maybe when migrating
     def calculate_sortable_values
       response_fieldable.input_fields.each do |response_field|
         if (x = response_value(response_field)).present?
-          self.responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(x)
+          get_responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(x)
         end
       end
 
-      self.responses_will_change!
+      mark_responses_as_changed!
     end
 
     # Normalizations get run before validation.
@@ -107,20 +135,20 @@ module Formbuilder
 
       form.response_fields.each do |response_field|
         if (x = self.response_value(response_field))
-          response_field.normalize_response(x, self.responses)
+          response_field.normalize_response(x, get_responses)
         end
       end
 
-      self.responses_will_change!
+      mark_responses_as_changed!
     end
 
     # Audits get run explicitly.
     def audit_responses
       form.response_fields.each do |response_field|
-        response_field.audit_response(self.response_value(response_field), self.responses)
+        response_field.audit_response(self.response_value(response_field), get_responses)
       end
 
-      self.responses_will_change!
+      mark_responses_as_changed!
     end
 
   end

@@ -34,7 +34,7 @@ module Formbuilder
     private
     def add_error(msg)
       return unless msg.present?
-      @record.errors["responses_#{@response_field.id}"] << msg
+      @record.errors["#{@record.responses_column}_#{@response_field.id}"] << msg
     end
 
     def run_validation(method_name)

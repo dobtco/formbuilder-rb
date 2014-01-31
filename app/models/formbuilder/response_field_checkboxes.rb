@@ -84,14 +84,14 @@ module Formbuilder
         end
 
         if raw_value['other_checkbox'] == 'on'
-          entry.responses["#{self.id}_other"] = true
+          entry.get_responses["#{self.id}_other"] = true
           h['Other'] = raw_value['other']
         end
 
         if h.find { |_, v| v }.present?
-          entry.responses["#{self.id}_present"] = true
+          entry.get_responses["#{self.id}_present"] = true
         else
-          entry.responses.delete("#{self.id}_present")
+          entry.get_responses.delete("#{self.id}_present")
         end
       end
     end
