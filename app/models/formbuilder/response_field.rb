@@ -70,6 +70,10 @@ module Formbuilder
       value
     end
 
+    def render_entry_text(value, opts = {})
+      render_entry(value, opts)
+    end
+
     def audit_response(value, all_responses); end;
 
     def normalize_response(value, all_responses); end;

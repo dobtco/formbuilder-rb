@@ -66,4 +66,15 @@ describe Formbuilder::ResponseFieldFile do
     end
   end
 
+  describe '#render_entry_text' do
+    before do
+      entry.save_response([file_value], rf)
+    end
+
+    it 'renders properly' do
+      rf.render_entry_text(entry.responses[rf.id.to_s]).should match 'text2.txt'
+      rf.render_entry_text(entry.responses[rf.id.to_s]).should_not match '<'
+    end
+  end
+
 end

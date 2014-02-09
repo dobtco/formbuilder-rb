@@ -24,6 +24,10 @@ module Formbuilder
       "<a href='#{value}' target='_blank' rel='nofollow'>#{value}</a>"
     end
 
+    def render_entry_text(value, opts = {})
+      value
+    end
+
     def validate_response(value)
       require 'uri'
 

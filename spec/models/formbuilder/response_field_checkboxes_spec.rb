@@ -46,4 +46,12 @@ describe Formbuilder::ResponseFieldCheckboxes do
     end
   end
 
+  describe '#render_entry_text' do
+    it 'functions properly' do
+      expect(rf.render_entry_text({'foo' => true})).to eq 'foo: y'
+      expect(rf.render_entry_text({'foo' => true, 'bar' => false})).to eq "foo: y\nbar: n"
+      expect(rf.render_entry_text({'foo' => true, 'Other' => 'yee'})).to eq "foo: y\nOther: yee"
+    end
+  end
+
 end

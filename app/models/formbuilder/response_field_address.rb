@@ -54,6 +54,12 @@ module Formbuilder
       """
     end
 
+    def render_entry_text(value, opts = {})
+      "#{value['street']}\n" +
+      "#{value['city']} #{value['state']} #{value['zipcode']}\n" +
+      "#{value['country']}"
+    end
+
     def audit_response(value, all_responses)
       begin
         coords = Geocoder.coordinates("#{value['street']} #{value['city']} " +

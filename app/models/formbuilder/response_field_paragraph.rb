@@ -27,5 +27,9 @@ module Formbuilder
       end
     end
 
+    def render_entry_text(value, opts = {})
+      value
+    end
+
   end
 end

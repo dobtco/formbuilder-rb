@@ -50,6 +50,12 @@ module Formbuilder
       return_str
     end
 
+    def render_entry_text(value, opts = {})
+      get_attachments(value).map { |attachment|
+        attachment.upload.url
+      }.join(', ')
+    end
+
     def audit_response(value, all_responses)
       return unless value
       all_responses["#{self.id}_filename"] = get_attachments(value).try(:first).try(:upload).try(:raw_filename)

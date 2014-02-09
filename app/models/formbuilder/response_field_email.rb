@@ -24,6 +24,10 @@ module Formbuilder
       "<a href='mailto:#{value}'>#{value}</a>"
     end
 
+    def render_entry_text(value, opts = {})
+      value
+    end
+
     def validate_response(value)
       unless value =~ /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
         "isn't a valid email address."

@@ -65,6 +65,12 @@ module Formbuilder
       """
     end
 
+    def render_entry_text(value, opts = {})
+      (value || {}).map do |k, v|
+        "#{k}: #{v ? (k == 'Other' ? v : 'y') : 'n'}"
+      end.join("\n")
+    end
+
     def sortable_value(value)
       nil # see :normalize_response for override
     end
