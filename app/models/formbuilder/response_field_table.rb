@@ -136,7 +136,7 @@ module Formbuilder
           total = opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_sum_#{column}")
 
           str += """
-            <td><span>#{total.present? ? total : ''}</span></td>
+            <td><span>#{total.to_f > 0 ? total : ''}</span></td>
           """
         end
 

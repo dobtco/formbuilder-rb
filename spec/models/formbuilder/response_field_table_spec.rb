@@ -61,8 +61,21 @@ describe Formbuilder::ResponseFieldTable do
   end
 
   describe '#render_entry' do
+    it 'does not trip on blanks' do
+      rendered = rf.render_entry(
+        {'column one' => ['bar', 'baz']},
+        entry: OpenStruct.new(get_responses: {})
+      )
+      expect(rendered).to match 'bar'
+      expect(rendered).to match 'baz'
+      expect(rendered).to_not match '0'
+    end
+
     it 'does not render zeroes' do
-      rendered = rf.render_entry({'column one' => ['bar', 'baz']})
+      rendered = rf.render_entry(
+        {'column one' => ['bar', 'baz']},
+        entry: OpenStruct.new(get_responses: {"#{rf.id}_sum_column one" => '0.0'})
+      )
       expect(rendered).to match 'bar'
       expect(rendered).to match 'baz'
       expect(rendered).to_not match '0'
