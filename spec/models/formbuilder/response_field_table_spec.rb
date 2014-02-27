@@ -4,7 +4,8 @@ describe Formbuilder::ResponseFieldTable do
 
   let(:response_field) do
     Formbuilder::ResponseFieldTable.new(
-      field_options: { 'columns' => [{'label' => 'column one'}] }
+      field_options: { 'columns' => [{'label' => 'column one'}],
+                       'column_totals' => true }
     )
   end
   subject { response_field }
@@ -51,30 +52,31 @@ describe Formbuilder::ResponseFieldTable do
       transformed['column one'].should == ['bar']
       transformed['column two'].should == ['baz']
     end
-
-    # it 'transforms the other option' do
-    #   transformed = rf.transform_raw_value({ 'other_checkbox' => 'on', 'other' => 'bar' }, entry)
-    #   transformed['Other'].should == 'bar'
-    # end
-
-    # it 'does not save the other option unless the checkbox is checked' do
-    #   transformed = rf.transform_raw_value({ 'other_checkbox' => nil, 'other' => 'bar' }, entry)
-    #   transformed['Other'].should == nil
-    # end
-
-    # it 'sets the _present attribute' do
-    #   rf.transform_raw_value({ '0' => 'on' }, entry)
-    #   entry.responses["#{rf.id}_present"].should == true
-    #   rf.transform_raw_value({ '0' => nil }, entry)
-    #   entry.responses["#{rf.id}_present"].should == nil
-    #   rf.transform_raw_value({ 'other_checkbox' => 'on', 'other' => 'z' }, entry)
-    #   entry.responses["#{rf.id}_present"].should == true
-    # end
   end
 
   describe '#render_entry_text' do
     it 'functions properly' do
       expect(rf.render_entry_text({'column one' => ['bar', 'baz']})).to eq 'column one: bar, baz'
+    end
+  end
+
+  describe '#render_entry' do
+    it 'does not render zeroes' do
+      rendered = rf.render_entry({'column one' => ['bar', 'baz']})
+      expect(rendered).to match 'bar'
+      expect(rendered).to match 'baz'
+      expect(rendered).to_not match '0'
+    end
+
+    it 'renders sums greater than zero' do
+      rendered = rf.render_entry(
+        {'column one' => ['bar', '1', '1.5']},
+        entry: OpenStruct.new(get_responses: {"#{rf.id}_sum_column one" => '2.5'})
+      )
+      expect(rendered).to match 'bar'
+      expect(rendered).to match '1'
+      expect(rendered).to match '1.5'
+      expect(rendered).to match '2.5'
     end
   end
 

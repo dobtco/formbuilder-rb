@@ -133,8 +133,10 @@ module Formbuilder
         """
 
         columns_array.each_with_index do |column, j|
+          total = opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_sum_#{column}")
+
           str += """
-            <td><span>#{opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_sum_#{column}")}</span></td>
+            <td><span>#{total.present? ? total : ''}</span></td>
           """
         end
 
