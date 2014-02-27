@@ -24,6 +24,10 @@ module Formbuilder
                   0
                 END) #{direction}".squish)
       }
+
+      scope :order_by_response_field_table_sum, -> (response_field, column, direction) {
+        order("(responses -> '#{response_field.id}_sum_#{column}') ::numeric #{direction}")
+      }
     end
 
     def responses_column
