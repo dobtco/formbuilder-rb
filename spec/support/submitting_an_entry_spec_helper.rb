@@ -46,6 +46,12 @@ module SubmittingAnEntrySpecHelper
       fill_in "#{field_name(field_type)}[state]", with: value[:state]
       fill_in "#{field_name(field_type)}[zipcode]", with: value[:zipcode]
       select(value[:country], from: "#{field_name(field_type)}[country]")
+    when :table
+      value.each_with_index do |values, i|
+        all("input").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
+          input.set values[index]
+        end
+      end
     else
       fill_in field_name(field_type), with: value
     end
@@ -65,7 +71,8 @@ module SubmittingAnEntrySpecHelper
       website: 'www.google.com',
       email: 'strongbad@homestarrunner.com',
       file: '../fixtures/test_files/text.txt',
-      address: { street: '123 Main St.', city: 'Oakland', state: 'California', zipcode: '94609', country: 'United Kingdom' }
+      address: { street: '123 Main St.', city: 'Oakland', state: 'California', zipcode: '94609', country: 'United Kingdom' },
+      table: [['yes', 'no'], ['', 'foo']]
     }
   end
 
@@ -89,7 +96,8 @@ module SubmittingAnEntrySpecHelper
       website: 'www.gizoogle.com',
       email: 'homestar@homestarrunner.com',
       file: '../fixtures/test_files/text2.txt',
-      address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' }
+      address: { street: '125 Main St.', city: 'Berkeley', state: 'California', zipcode: '94704', country: 'Algeria' },
+      table: [['no', ''], ['yes', '']]
     }
   end
 
@@ -129,6 +137,12 @@ module SubmittingAnEntrySpecHelper
       page.should have_field("#{field_name(field_type)}[state]", with: value[:state])
       page.should have_field("#{field_name(field_type)}[zipcode]", with: value[:zipcode])
       page.should have_select("#{field_name(field_type)}[country]", selected: value[:country])
+    when :table
+      value.each_with_index do |values, i|
+        all("input").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
+          input.value.should == values[index]
+        end
+      end
     else
       page.should have_field(field_name(field_type), with: value)
     end

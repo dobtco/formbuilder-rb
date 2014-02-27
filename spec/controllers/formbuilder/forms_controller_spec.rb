@@ -19,14 +19,14 @@ describe Formbuilder::FormsController do
 
     it 'should remove existing fields' do
       form = FactoryGirl.create(:kitchen_sink_form)
-      form.response_fields.count.should == 14
+      form.response_fields.count.should == 15
       put :update, id: form.id, fields: JSON.parse(TEST_JSON)
       form.reload.response_fields.count.should == 3
     end
 
     it 'should preserve existing fields' do
       form = FactoryGirl.create(:kitchen_sink_form)
-      form.response_fields.count.should == 14
+      form.response_fields.count.should == 15
       json_payload = JSON.parse(TEST_JSON)
       json_payload[0]['id'] = form.response_fields.first.id
       put :update, id: form.id, fields: json_payload

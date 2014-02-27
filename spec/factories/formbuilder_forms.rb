@@ -21,6 +21,9 @@ FactoryGirl.define do
       f.response_fields.create(label: "File", type: "Formbuilder::ResponseFieldFile", sort_order: 11, field_options: {"required" => true})
       f.response_fields.create(label: "Email", type: "Formbuilder::ResponseFieldEmail", sort_order: 12, field_options: {"required" => true})
       f.response_fields.create(label: "Address", type: "Formbuilder::ResponseFieldAddress", sort_order: 13, field_options: {"required" => true})
+      f.response_fields.create(label: "Table", type: "Formbuilder::ResponseFieldTable", sort_order: 14,
+                                field_options: {"columns" => [{'label' => 'column one'}, {'label' => 'column two'}],
+                                                "minrows" => "2"})
     end
   end
 
