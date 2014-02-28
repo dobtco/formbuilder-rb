@@ -52,6 +52,12 @@ describe Formbuilder::ResponseFieldTable do
       transformed['column one'].should == ['bar']
       transformed['column two'].should == ['baz']
     end
+
+    it 'doesnt choke on nils' do
+      transformed = rf.transform_raw_value({ }, entry)
+      transformed['column one'].should == nil
+      transformed['column two'].should == nil
+    end
   end
 
   describe '#render_entry_text' do

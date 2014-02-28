@@ -3,7 +3,7 @@ module Formbuilder
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :skip_validation
+      attr_accessor :skip_validation, :only_validate_page
 
       before_validation :normalize_responses
       validates_with Formbuilder::EntryValidator
@@ -28,6 +28,29 @@ module Formbuilder
       scope :order_by_response_field_table_sum, -> (response_field, column, direction) {
         order("(responses -> '#{response_field.id}_sum_#{column}') ::numeric #{direction}")
       }
+    end
+
+    def valid_page?(x)
+      self.only_validate_page = x
+      self.valid?
+    end
+
+    def first_page_with_errors
+      if (i = pages_with_errors.find_index { |x| x == true })
+        i + 1
+      else
+        nil
+      end
+    end
+
+    def pages_with_errors
+      form.response_fields_by_page.map do |page|
+        page.find { |response_field| self.error_for(response_field).present? } ? true : false
+      end
+    end
+
+    def errors_on_page?(x)
+      pages_with_errors[x - 1] # 0-indexed
     end
 
     def responses_column
@@ -87,8 +110,8 @@ module Formbuilder
       end
     end
 
-    def save_responses(response_field_params, response_fields)
-      set_responses({})
+    def save_responses(response_field_params, response_fields, opts = {})
+      set_responses({}) unless opts[:partial_update]
 
       response_fields.select { |rf| rf.input_field }.each do |response_field|
         self.save_response(response_field_params[response_field.id.to_s], response_field, response_field_params)
@@ -101,6 +124,9 @@ module Formbuilder
       if value.present?
         get_responses["#{response_field.id}"] = response_field.serialized ? value.to_yaml : value
         get_responses["#{response_field.id}_sortable_value"] = response_field.sortable_value(value)
+      else
+        get_responses.delete("#{response_field.id}")
+        get_responses.delete("#{response_field.id}_sortable_value")
       end
 
       mark_responses_as_changed!

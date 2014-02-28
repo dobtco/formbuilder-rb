@@ -11,7 +11,17 @@ module Formbuilder
       # we can also skip validation by setting this flag
       return if record.skip_validation
 
-      record.form.response_fields.not_admin_only.reject { |rf| !rf.input_field }.each do |response_field|
+      record.form.show_blind = true
+
+      if record.only_validate_page
+        query = record.form.response_fields_for_page(record.only_validate_page)
+      else
+        query = record.form.filtered_response_fields
+      end
+
+      query = query.reject { |rf| !rf.input_field }
+
+      query.each do |response_field|
         @response_field = response_field
         @value = @record.response_value(@response_field)
 

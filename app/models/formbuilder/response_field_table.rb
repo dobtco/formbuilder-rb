@@ -184,7 +184,7 @@ module Formbuilder
         end
 
         # Iterate through each row, and remove ones without any values.
-        i = h.first[1].length - 1
+        i = Array(h.first[1]).length - 1
         while i >= 0
           unless h.find { |k, v| v[i].present? }
             h.each do |k, v|
