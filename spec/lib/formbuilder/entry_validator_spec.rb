@@ -25,6 +25,36 @@ describe Formbuilder::EntryValidator do
     end
   end
 
+  describe 'page validation' do
+    let!(:rf1) { form.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0, required: true) }
+    let!(:rf2) { form.response_fields.create(label: "pb", type: "Formbuilder::ResponseFieldPageBreak", sort_order: 1) }
+    let!(:rf3) { form.response_fields.create(label: "Text2", type: "Formbuilder::ResponseFieldText", sort_order: 2, required: true) }
+
+    before do
+      entry.save_response('Boo', rf1)
+      entry.save
+    end
+
+    subject { entry }
+
+    it 'validates per page' do
+      expect(entry.valid_page?(2)).to be_false
+      expect(entry.valid_page?(1)).to be_true
+    end
+
+    its(:first_page_with_errors) { should eq 2 }
+    its(:pages_with_errors) { should eq [false, true] }
+
+    describe '#errors_on_page?' do
+      before { entry.valid? }
+
+      it 'calculates properly' do
+        expect(entry.errors_on_page?(1)).to be_false
+        expect(entry.errors_on_page?(2)).to be_true
+      end
+    end
+  end
+
   describe 'ResponseFieldText' do
     let(:field) { form.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0) }
 
