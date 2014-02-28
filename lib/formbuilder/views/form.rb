@@ -4,36 +4,76 @@ module Formbuilder
 
       needs :form,
             :entry,
+            current_page: 1,
             action: '',
-            method: 'POST',
-            show_blind: false,
-            show_admin_only: false
+            method: 'POST'
 
       def content
+        page_list if @form.multi_page?
+
         form_tag @action, method: @method, class: 'formbuilder-form', multipart: true do
+          input type: 'hidden', name: 'page', value: @current_page
           render_fields
           actions
         end
       end
 
-      private
-      def render_fields
-        response_fields.each do |rf|
-          widget Formbuilder::Views::FormField.new(response_field: rf, entry: @entry)
-        end
-      end
-
-      def response_fields
-        return_array = @form.response_fields
-        return_array = return_array.reject { |rf| rf.blind? } unless @show_blind
-        return_array = return_array.reject { |rf| rf.admin_only? } unless @show_admin_only
-        return_array
+      def page_list
+        ul.unstyled.inline.formbuilder_form_pages_list {
+          (1..@form.num_pages).each do |x|
+            if x == @current_page
+              li { span x }
+            else
+              li.active { a x, href: url_for(params.merge(page: x)) }
+            end
+          end
+        }
       end
 
       def actions
+        opts = {}
+
+        unless first_page?
+          opts[:go_back_text] = "Back to page #{previous_page}"
+          opts[:go_back_html] = { href: url_for(params.merge(page: previous_page)) }
+        end
+
+        if last_page?
+          opts[:continue_text] = 'Preview and Submit'
+        else
+          opts[:continue_text] = 'Next page'
+        end
+
         div(class: 'form-actions') {
-          button.button.primary 'Submit'
+          if opts[:go_back_text]
+            a.button opts[:go_back_text], opts[:go_back_html]
+          end
+
+          button.button.primary opts[:continue_text]
         }
+      end
+
+      private
+      def render_fields
+        @form.response_fields_for_page(@current_page).each do |response_field|
+          widget Formbuilder::Views::FormField.new(response_field: response_field, entry: @entry)
+        end
+      end
+
+      def first_page?
+        @current_page == 1
+      end
+
+      def previous_page
+        @current_page - 1
+      end
+
+      def next_page
+        @current_page + 1
+      end
+
+      def last_page?
+        @current_page == @form.num_pages
       end
 
     end

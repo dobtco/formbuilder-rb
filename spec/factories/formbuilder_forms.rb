@@ -27,6 +27,16 @@ FactoryGirl.define do
     end
   end
 
+  factory :three_page_form, parent: :form do
+    after(:create) do |f|
+      f.response_fields.create(label: "Text1", type: "Formbuilder::ResponseFieldText", sort_order: 0, required: true)
+      f.response_fields.create(type: "Formbuilder::ResponseFieldPageBreak", sort_order: 1)
+      f.response_fields.create(label: "Text2", type: "Formbuilder::ResponseFieldText", sort_order: 2, required: true)
+      f.response_fields.create(type: "Formbuilder::ResponseFieldPageBreak", sort_order: 3)
+      f.response_fields.create(label: "Text3", type: "Formbuilder::ResponseFieldText", sort_order: 4, required: true)
+    end
+  end
+
   factory :form_with_one_field, parent: :form do
     after(:create) do |f|
       f.response_fields.create(label: "Text", type: "Formbuilder::ResponseFieldText", sort_order: 0, required: true)

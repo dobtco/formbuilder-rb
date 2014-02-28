@@ -31,8 +31,8 @@ module Formbuilder
     end
 
     def valid_page?(x)
-      self.only_validate_page = x
       self.valid?
+      self.errors_on_page?(x)
     end
 
     def first_page_with_errors

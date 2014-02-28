@@ -9,6 +9,7 @@ module SubmittingAnEntrySpecHelper
 
   def save_draft_and_refresh
     click_button 'Submit'
+    click_link 'Back to form'
   end
 
   def only_use_response_field(project, field_type)
