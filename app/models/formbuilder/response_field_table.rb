@@ -40,7 +40,7 @@ module Formbuilder
 
         columns_array.each_with_index do |column, j|
           preset_val = Hash(self.field_options['preset_values']).try(:[], column).try(:[], i)
-          val = preset_val || value[column].try(:[], i)
+          val = preset_val.presence || value[column].try(:[], i)
 
           str += """
             <td>
