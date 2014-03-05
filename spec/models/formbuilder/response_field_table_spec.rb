@@ -99,4 +99,26 @@ describe Formbuilder::ResponseFieldTable do
     end
   end
 
+  describe '#render_input' do
+    it 'renders properly' do
+      rendered = rf.render_input({})
+      expect(rendered).to match("<input")
+    end
+
+    context 'with default row values' do
+      before do
+        rf.field_options['preset_values'] = {'column one' => ['p1', 'p2']}
+        rf.field_options['minrows'] = 2
+        rf.save
+      end
+
+      it 'renders properly' do
+        rendered = rf.render_input({})
+        expect(rendered).to match("value='p1'")
+        expect(rendered).to match("value='p2'")
+        expect(rendered).to match("readonly")
+      end
+    end
+  end
+
 end

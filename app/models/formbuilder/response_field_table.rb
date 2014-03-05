@@ -39,11 +39,15 @@ module Formbuilder
         """
 
         columns_array.each_with_index do |column, j|
+          preset_val = Hash(self.field_options['preset_values']).try(:[], column).try(:[], i)
+          val = preset_val || value[column].try(:[], i)
+
           str += """
             <td>
               <input type='text'
                      name='response_fields[#{self[:id]}][#{j}][]'
-                     value='#{value[column].try(:[], i)}'
+                     value='#{val}'
+                     #{preset_val.present? ? 'readonly' : ''}
                      data-col='#{j}'
                      data-row='#{i}' />
             </td>
