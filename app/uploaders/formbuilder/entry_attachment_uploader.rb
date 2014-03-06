@@ -24,7 +24,7 @@ module Formbuilder
 
     protected
     def image?(file)
-      content_type = file.content_type || model.try(:content_type)
+      content_type = file.try(:content_type) || model.try(:content_type)
       content_type && content_type.include?('image')
     end
 
