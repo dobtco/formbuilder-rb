@@ -102,7 +102,7 @@ describe Formbuilder::ResponseFieldTable do
   describe '#render_input' do
     it 'renders properly' do
       rendered = rf.render_input({})
-      expect(rendered).to match("<input")
+      expect(rendered).to match("<textarea")
     end
 
     context 'with default row values' do
@@ -114,8 +114,8 @@ describe Formbuilder::ResponseFieldTable do
 
       it 'renders properly' do
         rendered = rf.render_input({})
-        expect(rendered).to match("value='p1'")
-        expect(rendered).to match("value='p2'")
+        expect(rendered).to match(">p1<")
+        expect(rendered).to match(">p2<")
         expect(rendered).to match("readonly")
       end
     end

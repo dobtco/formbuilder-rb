@@ -44,12 +44,11 @@ module Formbuilder
 
           str += """
             <td>
-              <input type='text'
-                     name='response_fields[#{self[:id]}][#{j}][]'
-                     value='#{val}'
-                     #{preset_val.present? ? 'readonly' : ''}
-                     data-col='#{j}'
-                     data-row='#{i}' />
+              <textarea name='response_fields[#{self[:id]}][#{j}][]'
+                        #{preset_val.present? ? 'readonly' : ''}
+                        data-col='#{j}'
+                        data-row='#{i}'
+                        rows='1'>#{val}</textarea>
             </td>
           """
         end
@@ -58,6 +57,24 @@ module Formbuilder
           </tr>
         """
       end
+
+      str += """
+        <script class='template' type='text/template'>
+          <tr>
+      """
+
+      columns_array.each_with_index do |_, j|
+        str += """
+          <td>
+            <textarea name='response_fields[#{self[:id]}][#{j}][]' rows='1'></textarea>
+          </td>
+        """
+      end
+
+      str += """
+          </tr>
+        </script>
+      """
 
       str += """
           </tbody>
@@ -89,7 +106,7 @@ module Formbuilder
         </div>
       """
 
-      str.squish
+      str
     end
 
     def render_entry(value, opts = {})
@@ -153,7 +170,7 @@ module Formbuilder
         </table>
       """
 
-      str.squish
+      str
     end
 
     def render_entry_text(value, opts = {})
