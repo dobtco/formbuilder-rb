@@ -41,7 +41,7 @@ module Formbuilder
           end
 
           str << """
-              #{attachment.upload.try(:file).try(:filename).try(:gsub, /\?.*$/, '')}
+              #{attachment.upload.try(:raw_filename)}
             </a>
           """
         end
