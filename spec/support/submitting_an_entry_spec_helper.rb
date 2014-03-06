@@ -49,7 +49,7 @@ module SubmittingAnEntrySpecHelper
       select(value[:country], from: "#{field_name(field_type)}[country]")
     when :table
       value.each_with_index do |values, i|
-        all("input").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
+        all("textarea").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
           input.set values[index]
         end
       end
@@ -140,7 +140,7 @@ module SubmittingAnEntrySpecHelper
       page.should have_select("#{field_name(field_type)}[country]", selected: value[:country])
     when :table
       value.each_with_index do |values, i|
-        all("input").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
+        all("textarea").select { |input| input['name']["#{field_name(field_type)}[#{i}]"] }.each_with_index do |input, index|
           input.value.should == values[index]
         end
       end
