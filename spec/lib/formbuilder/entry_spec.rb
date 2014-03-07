@@ -98,6 +98,10 @@ describe Formbuilder::Entry do
       entry.save_responses({ "#{first_field.id}" => 'boo' }, form.response_fields)
       entry.response_value(first_field).should == 'boo'
     end
+
+    it 'should not choke on nil' do
+      entry.save_responses(nil, form.response_fields)
+    end
   end
 
   describe '#destroy_response' do

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    formbuilder-rb (0.2.0)
+    formbuilder-rb (0.2.1)
       carrierwave
       erector-rails4
       geocoder

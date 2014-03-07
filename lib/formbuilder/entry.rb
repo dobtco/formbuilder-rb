@@ -112,6 +112,7 @@ module Formbuilder
 
     def save_responses(response_field_params, response_fields, opts = {})
       set_responses({}) unless opts[:partial_update]
+      response_field_params ||= {}
 
       response_fields.select { |rf| rf.input_field }.each do |response_field|
         self.save_response(response_field_params[response_field.id.to_s], response_field, response_field_params)
