@@ -1,3 +1,4 @@
+require 'database_cleaner'
 require 'coveralls'
 Coveralls.wear!
 

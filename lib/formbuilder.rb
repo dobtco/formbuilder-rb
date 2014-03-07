@@ -1,3 +1,8 @@
+# Require dependencies explicitly
+require 'carrierwave'
+require 'erector'
+require 'geocoder'
+
 require "formbuilder/engine"
 require "formbuilder/entry"
 require "formbuilder/entry_validator"

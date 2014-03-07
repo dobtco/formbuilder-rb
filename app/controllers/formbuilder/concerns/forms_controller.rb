@@ -49,6 +49,9 @@ module Formbuilder
           sort_order: i,
           type: "Formbuilder::ResponseField#{field_params[:field_type].camelize}"
         )
+
+        filtered_params.permit!
+        filtered_params
       end
 
     end
