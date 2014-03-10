@@ -1,25 +1,15 @@
 require 'carrierwave/processing/mime_types'
 
 module Formbuilder
-  class EntryAttachmentUploader < CarrierWave::Uploader::Base
+  class EntryAttachmentUploader < ::BaseUploader
     include CarrierWave::MimeTypes
     include CarrierWave::RMagick
-
-    @fog_public = false
 
     process :set_content_type
     process :save_content_type_and_size_in_model
 
     version :thumb, :if => :image? do
       process resize_to_limit: [250, 250]
-    end
-
-    def store_dir
-      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-    end
-
-    def raw_filename
-      @model.read_attribute(:upload)
     end
 
     protected

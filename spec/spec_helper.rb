@@ -23,3 +23,18 @@ Dir[Rails.root.join("../../spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   config.order = "random"
 end
+
+class BaseUploader < CarrierWave::Uploader::Base
+
+  @fog_public = false
+
+  def store_dir
+    digest = Digest::SHA2.hexdigest("#{model.class.to_s.underscore}-#{mounted_as}-#{model.id.to_s}").first(32)
+    "uploads/#{digest}"
+  end
+
+  def raw_filename
+    @model.read_attribute(:upload)
+  end
+
+end
