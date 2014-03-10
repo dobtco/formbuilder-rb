@@ -9,7 +9,9 @@ module Formbuilder
     }
 
     def render_input(value, opts = {})
-      """
+      value ||= {}
+
+      str = """
         <div class='input-line'>
           <span class='above-line'>$</span>
 
@@ -17,15 +19,24 @@ module Formbuilder
             <input type='text' name='response_fields[#{self[:id]}][dollars]' id='response_fields_#{self[:id]}' value='#{value['dollars']}' />
             <label>Dollars</label>
           </span>
+      """
 
+      unless self.field_options['disable_cents']
+        str += """
           <span class='above-line'>.</span>
 
           <span class='cents'>
             <input type='text' name='response_fields[#{self[:id]}][cents]' value='#{value['cents']}' maxlength='2' />
             <label>Cents</label>
           </span>
+        """
+      end
+
+      str += """
         </div>
       """
+
+      str
     end
 
     def render_entry(value, opts = {})

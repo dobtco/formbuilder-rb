@@ -180,7 +180,9 @@ describe Formbuilder::EntryValidator do
       entry.should be_valid
       entry.save_response({ 'cents' => '1a' }, field)
       entry.should_not be_valid
-      entry.save_response({ 'cents' => '1' }, field)
+      entry.save_response({ 'cents' => '1', 'dollars' => '' }, field)
+      entry.should be_valid
+      entry.save_response({ 'dollars' => '1', 'cents' => '' }, field)
       entry.should be_valid
       entry.save_response({ 'dollars' => '3a', 'cents' => '1' }, field)
       entry.should_not be_valid
