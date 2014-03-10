@@ -14,10 +14,7 @@ module Formbuilder
         cids = {}
 
         (params[:fields] || []).each_with_index do |field_params, i|
-          response_field = field_params[:id].present? ?
-                            @form.response_fields.find { |rf| rf.id == field_params[:id].to_i } :
-                            @form.response_fields.build
-
+          response_field = get_or_build_field(field_params[:id])
           response_field.update_attributes(transformed_field_params(field_params, i))
           cids[response_field.id] = field_params[:cid]
           existing_response_field_ids.push response_field.id
@@ -40,6 +37,11 @@ module Formbuilder
       private
       def load_form
         @form = Formbuilder::Form.find(params[:id])
+      end
+
+      def get_or_build_field(id_param)
+        (id_param.present? && @form.response_fields.find { |rf| rf.id == id_param.to_i }) ||
+        @form.response_fields.build
       end
 
       def transformed_field_params(field_params, i)
