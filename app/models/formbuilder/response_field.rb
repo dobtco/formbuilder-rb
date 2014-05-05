@@ -53,6 +53,18 @@ module Formbuilder
       length_validations(false).any?
     end
 
+    def min_max_length_units
+      field_options[:min_max_length_units] || 'characters'
+    end
+
+    def minlength
+      field_options[:minlength].presence
+    end
+
+    def maxlength
+      field_options[:maxlength].presence
+    end
+
     def min_max_validations
       return_hash = {
         min: field_options[:min],
@@ -60,6 +72,14 @@ module Formbuilder
       }
 
       return_hash.select { |k, v| v.present? }
+    end
+
+    def min
+      field_options[:min].presence
+    end
+
+    def max
+      field_options[:max].presence
     end
 
     def render_input(value, opts = {})
