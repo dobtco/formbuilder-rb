@@ -9,7 +9,9 @@ module Formbuilder
     }
 
     def render_input(value, opts = {})
-      """
+      value ||= {}
+
+      str = """
         <div class='input-line'>
           <span class='hours'>
             <input type='text' name='response_fields[#{self[:id]}][hours]' id='response_fields_#{self[:id]}' value='#{value['hours']}' maxlength='2' />
@@ -22,14 +24,21 @@ module Formbuilder
             <input type='text' name='response_fields[#{self[:id]}][minutes]' value='#{value['minutes']}' maxlength='2' />
             <label>MM</label>
           </span>
+      """
 
+
+      if !self[:field_options]['disable_seconds']
+        str += """
           <span class='above-line'>:</span>
 
           <span class='seconds'>
             <input type='text' name='response_fields[#{self[:id]}][seconds]' value='#{value['seconds']}' maxlength='2' />
             <label>SS</label>
           </span>
+        """
+      end
 
+      str += """
           <span class='am_pm'>
             <select name='response_fields[#{self[:id]}][am_pm]'>
               <option value='AM' #{value['am_pm'] == "AM" ? 'selected' : ''}>AM</option>
@@ -38,6 +47,8 @@ module Formbuilder
           </span>
         </div>
       """
+
+      str
     end
 
     def render_entry(value, opts = {})
