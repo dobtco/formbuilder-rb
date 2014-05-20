@@ -77,6 +77,9 @@ module Formbuilder
       # @todo currently no way of removing a file
       if raw_value.empty?
         entry.responses_column_was.try(:[], self.id.to_s)
+      elsif raw_value == 'deleted'
+        remove_entry_attachments(entry.get_responses.try(:[], self.id.to_s)) # remove old attachments
+        remove_entry_attachments(entry.responses_column_was.try(:[], self.id.to_s)) # remove old attachments
       else
         remove_entry_attachments(entry.get_responses.try(:[], self.id.to_s)) # remove old attachments
         remove_entry_attachments(entry.responses_column_was.try(:[], self.id.to_s)) # remove old attachments
