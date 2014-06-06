@@ -1,4 +1,4 @@
-#### Alert: This gem is used internally at [DOBT](https://github.com/dobtco), and might not be perfect for your implementation. We recommend forking this repository and using it as a starting opint.
+#### Alert: This gem is used internally at [DOBT](https://github.com/dobtco), and might not be perfect for your implementation. We recommend forking this repository and using it as a starting point. It's hard to gem-ify this stuff without integrating it into your app completely.
 
 Formbuilder.rb [![circle ci status](https://circleci.com/gh/dobtco/formbuilder-rb.png?circle-token=a769ad2fc81271bc1869b5e5a95053efa36b376f)](https://circleci.com/gh/dobtco/formbuilder-rb) <a href='https://coveralls.io/r/dobtco/formbuilder-rb'><img src='https://coveralls.io/repos/dobtco/formbuilder-rb/badge.png' alt='Coverage Status' /></a>
 ========
