@@ -99,7 +99,8 @@ module Formbuilder
     end
 
     def response_value(response_field)
-      value = get_responses[response_field.id.to_s]
+      r = get_responses || {}
+      value = r[response_field.id.to_s]
 
       if value
         response_field.serialized ? YAML::load(value) : value
