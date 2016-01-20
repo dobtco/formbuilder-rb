@@ -8,7 +8,7 @@ module Formbuilder
 
     def render_input(value, opts = {})
       """
-        <div class='block-of-text block-of-text-size-#{self[:field_options]['size']}'>
+        <div class='block-of-text block-of-text-size-#{self[:field_options][:size]}'>
           #{self[:label]}
         </div>
       """
