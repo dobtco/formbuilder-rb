@@ -10,19 +10,19 @@ module Formbuilder
     def render_input(value, opts = {})
       value ||= {}
 
-      str = (self[:field_options]["options"] || []).each_with_index.map do |option, i|
+      str = (self[:field_options][:options] || []).each_with_index.map do |option, i|
 
-        checked = (value == option["label"]) || (value.blank? && option["checked"])
+        checked = (value == option[:label]) || (value.blank? && option[:checked])
 
         """
           <label class='fb-option'>
-            <input type='radio' name='response_fields[#{self[:id]}]' #{checked ? 'checked' : ''} value='#{option['label']}' />
-            #{option['label']}
+            <input type='radio' name='response_fields[#{self[:id]}]' #{checked ? 'checked' : ''} value='#{option[:label]}' />
+            #{option[:label]}
           </label>
         """
       end.join('')
 
-      if self[:field_options]['include_other_option']
+      if self[:field_options][:include_other_option]
         str += """
           <div class='fb-option'>
             <label>

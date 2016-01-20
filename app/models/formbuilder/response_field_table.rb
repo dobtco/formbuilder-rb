@@ -11,7 +11,7 @@ module Formbuilder
     }
 
     def columns_array
-      Array(self[:field_options]['columns']).map { |column| column['label'] }
+      Array(self[:field_options][:columns]).map { |column| column[:label] }
     end
 
     def render_input(value, opts = {})
@@ -33,13 +33,13 @@ module Formbuilder
           <tbody>
       """
 
-      [self[:field_options]['minrows'].to_i, 1, number_of_saved_rows(value)].max.times do |i|
+      [self[:field_options][:minrows].to_i, 1, number_of_saved_rows(value)].max.times do |i|
         str += """
           <tr>
         """
 
         columns_array.each_with_index do |column, j|
-          preset_val = Hash(self.field_options['preset_values']).try(:[], column).try(:[], i)
+          preset_val = Hash(self.field_options[:preset_values]).try(:[], column).try(:[], i)
           val = preset_val.presence || value[column].try(:[], i)
 
           str += """
@@ -80,7 +80,7 @@ module Formbuilder
           </tbody>
       """
 
-      if self[:field_options]['column_totals']
+      if self[:field_options][:column_totals]
         str += """
           <tfoot>
         """
@@ -148,13 +148,13 @@ module Formbuilder
           </tbody>
       """
 
-      if self[:field_options]['column_totals']
+      if self[:field_options][:column_totals]
         str += """
           <tfoot>
         """
 
         columns_array.each_with_index do |column, j|
-          total = opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_sum_#{column}")
+          total = opts.try(:[], :entry).try(:get_responses).try(:[], "#{self.id}_sum_#{column}".to_sym)
 
           str += """
             <td><span>#{total.to_f > 0 ? total : ''}</span></td>
@@ -190,7 +190,7 @@ module Formbuilder
     def normalize_response(value, all_responses)
       # Calculate sums and store in the hstore
       columns_array.each do |column|
-        all_responses["#{self.id}_sum_#{column}"] = Array(value[column]).map do |x|
+        all_responses["#{self.id}_sum_#{column}".to_sym] = Array(value[column]).map do |x|
           x.gsub(/\$?,?/, '').to_f
         end.inject(:+)
       end
