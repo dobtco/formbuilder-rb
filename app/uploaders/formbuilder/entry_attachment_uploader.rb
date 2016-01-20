@@ -1,7 +1,7 @@
 require 'carrierwave/processing/mime_types'
 
 module Formbuilder
-  class EntryAttachmentUploader < ::BaseUploader
+  class EntryAttachmentUploader < BaseUploader
     include CarrierWave::MimeTypes
     include CarrierWave::RMagick
 
@@ -13,6 +13,7 @@ module Formbuilder
     end
 
     protected
+
     def image?(file)
       content_type = file.try(:content_type) || model.try(:content_type)
       content_type && content_type.include?('image')
