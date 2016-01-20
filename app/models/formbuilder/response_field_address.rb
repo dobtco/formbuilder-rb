@@ -13,26 +13,26 @@ module Formbuilder
       """
         <div class='input-line'>
           <span class='street'>
-            <input type'text' name='response_fields[#{self[:id]}][street]' id='response_fields_#{self[:id]}' value='#{value['street']}' />
+            <input type='text' name='response_fields[#{self[:id]}][street]' id='response_fields_#{self[:id]}' value='#{value['street']}' />
             <label>Address</label>
           </span>
         </div>
 
         <div class='input-line'>
           <span class='city'>
-            <input type'text' name='response_fields[#{self[:id]}][city]' value='#{value['city']}' />
+            <input type='text' name='response_fields[#{self[:id]}][city]' value='#{value['city']}' />
             <label>City</label>
           </span>
 
           <span class='state'>
-            <input type'text' name='response_fields[#{self[:id]}][state]' value='#{value['state']}' />
+            <input type='text' name='response_fields[#{self[:id]}][state]' value='#{value['state']}' />
             <label>State / Province / Region</label>
           </span>
         </div>
 
         <div class='input-line'>
           <span class='zip'>
-            <input type'text' name='response_fields[#{self[:id]}][zipcode]' value='#{value['zipcode']}' />
+            <input type='text' name='response_fields[#{self[:id]}][zipcode]' value='#{value['zipcode']}' />
             <label>Zipcode</label>
           </span>
 
