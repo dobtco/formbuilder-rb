@@ -23,6 +23,10 @@ module Formbuilder
         </div>
       """
 
+      str += """
+        <input name='response_fields[#{self.id}]' type='hidden' value='' />
+      """
+
       str
     end
   end
