@@ -1,0 +1,17 @@
+development:
+  access_key:
+  secret_key:
+  region:
+  bucket:
+
+staging:
+  access_key:
+  secret_key:
+  region:
+  bucket:
+
+production:
+  access_key:
+  secret_key:
+  region:
+  bucket:
