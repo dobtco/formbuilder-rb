@@ -1,7 +1,7 @@
 .bundle/
 log/*.log
 pkg/
-spec/dummy/config/database.yml
+spec/dummy/config/*.yml
 spec/dummy/log/*.log
 spec/dummy/tmp/
 spec/dummy/.sass-cache
