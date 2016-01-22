@@ -7,7 +7,7 @@ module Formbuilder
 
     def render_input(value, opts = {})
       str = """
-        <label>#{option[:label]}</label>
+        <label>#{self[:label]}</label>
       """
 
       if self[:field_options][:description].present?
@@ -15,7 +15,7 @@ module Formbuilder
       end
 
       str += """
-        <canvas></canvas>
+        <canvas id='signature-#{self.id}'></canvas>
       """
 
       str
