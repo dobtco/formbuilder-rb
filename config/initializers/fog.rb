@@ -1,10 +1,10 @@
 require 'yaml'
-require 'carrierwave'
 
 S3 = YAML.load_file(Rails.root.join('config', 's3.yml'))[Rails.env.to_sym]
 
+# DOCS FOR v0.10.0 can be found here:
+# https://github.com/carrierwaveuploader/carrierwave/tree/v0.10.0
 CarrierWave.configure do |config|
-  config.fog_provider = 'fog/aws'
   config.fog_credentials = {
     provider: 'AWS',
     aws_access_key_id:     S3[:access_key],
