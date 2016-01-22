@@ -1,8 +1,8 @@
 module Formbuilder
   class ResponseFieldSignature < ResponseField
     after_initialize -> {
-      @input_field = false
       @field_type = 'signature'
+      @search_type = 'signature'
     }
 
     def render_input(value, opts = {})
