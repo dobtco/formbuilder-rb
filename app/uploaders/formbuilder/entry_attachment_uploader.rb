@@ -5,6 +5,10 @@ module Formbuilder
     include CarrierWave::MimeTypes
     include CarrierWave::RMagick
 
+    # Use file storage if Test Environment
+    storage_mechanism = Rails.env.test? ? :file : :fog
+    storage storage_mechanism
+
     process :set_content_type
     process :save_content_type_and_size_in_model
 
