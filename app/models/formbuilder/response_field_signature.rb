@@ -15,7 +15,16 @@ module Formbuilder
       end
 
       str += """
-        <canvas id='signature-#{self.id}'></canvas>
+        <div id='signature-pad-#{self.id}' class='m-signature-pad'>
+          <div class='m-signature-pad--body'>
+            <canvas></canvas>
+          </div>
+          <div class='m-signature-pad--footer'>
+            <div class='description'>Sign above</div>
+            <button type='button' class='button clear' data-action='clear'>Clear</button>
+            <button type='button' class='button save' data-action='save'>Save</button>
+          </div>
+        </div>
       """
 
       str
