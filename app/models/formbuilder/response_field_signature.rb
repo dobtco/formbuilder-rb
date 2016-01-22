@@ -13,12 +13,12 @@ module Formbuilder
       str += """
         <div id='signature-pad-#{self.id}' class='m-signature-pad'>
           <div class='m-signature-pad--body'>
-            <canvas></canvas>
+            <canvas data-id='#{self.id}'></canvas>
           </div>
           <div class='m-signature-pad--footer'>
             <div class='description'>#{self[:field_options][:description]}</div>
-            <button type='button' class='button clear' data-action='clear'>Clear</button>
-            <button type='button' class='button save' data-action='save'>Save</button>
+            <button type='button' class='button clear' data-clear-id='#{self.id}' data-action='clear'>Clear</button>
+            <button type='button' class='button save' data-save-id='#{self.id}' data-action='save'>Save</button>
           </div>
         </div>
       """
