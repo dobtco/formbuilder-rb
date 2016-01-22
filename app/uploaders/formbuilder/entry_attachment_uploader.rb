@@ -5,8 +5,6 @@ module Formbuilder
     include CarrierWave::MimeTypes
     include CarrierWave::RMagick
 
-    @fog_public = false
-
     process :set_content_type
     process :save_content_type_and_size_in_model
 
@@ -14,17 +12,25 @@ module Formbuilder
       process resize_to_limit: [250, 250]
     end
 
+    # Set to nil if no file path required
+    #
+    # @return [String]
     def store_dir
-      digest = Digest::SHA2.hexdigest("#{model.class.to_s.underscore}-#{mounted_as}-#{model.id.to_s}").first(32)
-      "uploads/#{digest}"
+      Digest::SHA2.hexdigest("#{model.class.to_s.underscore}-#{mounted_as}-#{model.id.to_s}").first(32)
     end
 
+    # Filename
+    #
+    # @return [String]
     def raw_filename
-      @model.read_attribute(:upload)
+      model.read_attribute(:upload)
     end
 
     protected
 
+    # Is content-type image?
+    #
+    # @return [Boolean]
     def image?(file)
       content_type = file.try(:content_type) || model.try(:content_type)
       content_type && content_type.include?('image')
