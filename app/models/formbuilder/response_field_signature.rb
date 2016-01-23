@@ -6,11 +6,11 @@ module Formbuilder
     }
 
     def render_input(value, opts = {})
-      str = """
-        <label>#{self[:label]}</label>
-      """
+      # str = """
+      #   <label>#{self[:label]}</label>
+      # """
 
-      str += """
+      str = """
         <div id='signature-pad-#{self.id}' class='m-signature-pad'>
           <div class='m-signature-pad--body'>
             <canvas data-id='#{self.id}'></canvas>
