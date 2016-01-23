@@ -29,5 +29,9 @@ module Formbuilder
 
       str
     end
+
+    def render_entry(value, opts = {})
+      "<img src='#{value}' />"
+    end
   end
 end
