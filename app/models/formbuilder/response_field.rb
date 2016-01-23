@@ -107,7 +107,7 @@ module Formbuilder
     end
 
     def options_array
-      Array(self.field_options['options']).map { |o| o['label'] }
+      Array(self.field_options[:options]).map { |o| o[:label] }
     end
 
     def sortable_value(value)

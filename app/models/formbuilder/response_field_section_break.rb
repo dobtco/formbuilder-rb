@@ -8,12 +8,12 @@ module Formbuilder
 
     def render_input(value, opts = {})
       str = """
-        <div class='section-break-inner section-break-size-#{self[:field_options]['size']}'>
+        <div class='section-break-inner section-break-size-#{self[:field_options][:size]}'>
           <div class='section-name'>#{self[:label]}</div>
       """
 
-      if self[:field_options]['description'].present?
-        str += """<p>#{self[:field_options]['description']}</p>"""
+      if self[:field_options][:description].present?
+        str += """<p>#{self[:field_options][:description]}</p>"""
       end
 
       str += """

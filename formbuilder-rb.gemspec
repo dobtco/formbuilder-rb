@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", '~> 4.1', '>= 4.1.0'
 
   s.add_dependency 'carrierwave', '~> 0.10', '>= 0.10.0'
+  s.add_dependency 'fog-aws'
   s.add_dependency 'erector-rails4', '~> 0.1', '>= 0.1.0'
   s.add_dependency 'geocoder', '~> 1.1', '>= 1.1.9'
   s.add_dependency 'pg', '~> 0.17', '>= 0.17.1'

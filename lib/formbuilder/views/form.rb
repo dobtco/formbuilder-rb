@@ -39,7 +39,7 @@ module Formbuilder
         end
 
         if last_page?
-          opts[:continue_text] = 'Preview and Submit'
+          opts[:continue_text] = 'Submit'
         else
           opts[:continue_text] = 'Next page'
         end
